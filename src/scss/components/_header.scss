@@ -17,17 +17,89 @@
   }
 }
 
-.main-header nav ul {
+.div-nav {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.main-header nav ul li {
-  margin: 0 20px 0 0;
+.nav-ul {
+  top: -100vh;
+  @include mq(1024) {
+    display: flex;
+    background-color: $color-first;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    //align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+    transition: all 0.2s ease 0s;
+  }
+}
+
+.show-modal-menu {
+  top: 0;
+  left: 0;
+}
+
+.ul-item {
+  display: flex;
+  align-items: center;
+  @include mq(1024) {
+    flex-direction: column;
+  }
+}
+
+.main-header div nav ul li,
+.search-menu {
   cursor: pointer;
   font-weight: 700;
   font-size: 20px;
   &:hover {
     color: $color-third;
+  }
+}
+
+.search-menu {
+  margin: 0 30px 0 0;
+}
+
+.header-logo,
+.main-header div nav ul li,
+.toggle-menu,
+.search-menu {
+  color: $color-white;
+}
+
+.toggle-menu {
+  display: none;
+  cursor: pointer;
+  &:hover {
+    color: $color-third;
+  }
+  @include mq(1024) {
+    display: flex;
+  }
+}
+
+.item {
+  margin: 0 30px 0 0;
+  @include mq(1024) {
+    margin: 0 0 30px 0;
+  }
+}
+
+.close-menu {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 100px;
+  @include mq(1024) {
+    display: flex;
+  }
+  @include mq(640) {
+    top: 30px;
+    left: 50px;
   }
 }
