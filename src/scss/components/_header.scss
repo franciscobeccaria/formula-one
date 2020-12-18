@@ -6,6 +6,12 @@
   align-items: center;
   padding: 0 100px;
   justify-content: space-between;
+  @include mq(640) {
+    padding: 0 40px;
+  }
+  @include mq(400) {
+    padding: 0 20px;
+  }
 }
 
 .header-logo {
@@ -14,6 +20,9 @@
   cursor: pointer;
   &:hover {
     color: $color-third;
+  }
+  @include mq(640) {
+    font-size: 25px;
   }
 }
 

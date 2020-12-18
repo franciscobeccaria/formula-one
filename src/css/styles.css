@@ -27,6 +27,12 @@
   align-items: center;
   padding: 0 100px;
   justify-content: space-between; }
+  @media screen and (max-width: 640px) {
+    .main-header {
+      padding: 0 40px; } }
+  @media screen and (max-width: 400px) {
+    .main-header {
+      padding: 0 20px; } }
 
 .header-logo {
   font-family: "Rammetto One", "Inter", Arial, Helvetica, sans-serif;
@@ -34,6 +40,9 @@
   cursor: pointer; }
   .header-logo:hover {
     color: #ffd166; }
+  @media screen and (max-width: 640px) {
+    .header-logo {
+      font-size: 25px; } }
 
 .div-nav {
   display: flex;
