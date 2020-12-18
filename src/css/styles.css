@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Rammetto+One&display=swap");
+:root {
+  --color-bg: #073b4c;
+  --color-first: #118ab2;
+  --color-second: #06d6a0;
+  --color-third: #ffd166;
+  --color-fourth: #ef476f;
+  --color-white: #ffffff;
+  --color-black: #000000; }
+
+:root {
+  --z-doubleback: -20;
+  --z-back: -10;
+  --z-middleback: -5;
+  --z-normal: 1;
+  --z-positivenormal: 5;
+  --z-tooltip: 10;
+  --z-doubletooltip: 20;
+  --z-fixed: 100;
+  --z-modal: 1000; }
+
+.main-header {
+  width: 100%;
+  height: 100px;
+  background-color: #118ab2;
+  display: flex;
+  align-items: center;
+  padding: 0 100px;
+  justify-content: space-between; }
+
+.header-logo {
+  font-family: "Rammetto One", "Inter", Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  cursor: pointer; }
+  .header-logo:hover {
+    color: #ffd166; }
+
+.main-header nav ul {
+  display: flex;
+  align-items: center; }
+
+.main-header nav ul li {
+  margin: 0 20px 0 0;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 20px; }
+  .main-header nav ul li:hover {
+    color: #ffd166; }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", Arial, Helvetica, sans-serif; }
+
+/* html {
+  font-size: 10px;
+} */
+body {
+  background-color: #073b4c; }
+
+main {
+  min-height: 800px; }
+
+ul,
+li {
+  list-style: none; }
+
+a {
+  text-decoration: none;
+  color: black; }
+
+.no-show {
+  display: none; }
+
+.show-flex {
+  display: flex; }
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center; }

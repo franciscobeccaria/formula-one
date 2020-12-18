@@ -1,12 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Rammetto+One&display=swap');
+
 @import './config/mixins';
 @import './config/variables';
 
-@import './pages/movie-page';
-@import './pages/my-user-page';
-@import './pages/login-page';
-@import './pages/sign-up-page';
-@import './pages/my-lists-page';
-@import './pages/list-page';
+@import './pages/circuit';
+@import './pages/circuits';
+@import './pages/driver';
+@import './pages/home';
+@import './pages/race';
+@import './pages/season';
+@import './pages/standings';
+@import './pages/team';
 
 @import './components/button';
 @import './components/table';

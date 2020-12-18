@@ -1,0 +1,33 @@
+.main-header {
+  width: 100%;
+  height: 100px;
+  background-color: $color-first;
+  display: flex;
+  align-items: center;
+  padding: 0 100px;
+  justify-content: space-between;
+}
+
+.header-logo {
+  font-family: $rammetto-one-family;
+  font-size: 30px;
+  cursor: pointer;
+  &:hover {
+    color: $color-third;
+  }
+}
+
+.main-header nav ul {
+  display: flex;
+  align-items: center;
+}
+
+.main-header nav ul li {
+  margin: 0 20px 0 0;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 20px;
+  &:hover {
+    color: $color-third;
+  }
+}
