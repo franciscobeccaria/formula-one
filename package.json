@@ -1,0 +1,12 @@
+{
+  "name": "formula1-project",
+  "version": "1.0.0",
+  "description": "Formula 1 information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node-sass --watch src/scss --output src/css"
+  },
+  "author": "",
+  "license": "ISC"
+}
