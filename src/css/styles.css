@@ -19,6 +19,19 @@
   --z-fixed: 100;
   --z-modal: 1000; }
 
+.div-list {
+  padding: 0 50px 50px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; }
+  @media screen and (max-width: 640px) {
+    .div-list {
+      padding: 0 20px 20px 20px; } }
+  @media screen and (max-width: 400px) {
+    .div-list {
+      padding: 0 10px 10px 10px; } }
+
 .driver-page {
   display: flex;
   align-items: center;
@@ -64,6 +77,10 @@
   justify-content: center;
   flex-wrap: wrap;
   margin: 50px; }
+
+.season-title-container * {
+  color: #ffffff;
+  margin: 5px; }
 
 .section-team-page * {
   color: #ffffff; }
@@ -155,6 +172,31 @@ table {
   .driver-link:hover,
   .team-link:hover {
     color: #ef476f; }
+
+.circuit-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #073b4c;
+  border: 1px solid #ffffff;
+  height: 125px;
+  width: 200px;
+  margin: 20px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer; }
+  .circuit-card:hover {
+    background-color: #118ab2; }
+  @media screen and (max-width: 640px) {
+    .circuit-card {
+      height: 80px;
+      width: 128px;
+      margin: 10px;
+      font-size: 11px; } }
+
+.circuit-card * {
+  color: #ffffff; }
 
 .driver-card {
   height: 400px;

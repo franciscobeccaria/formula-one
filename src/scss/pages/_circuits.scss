@@ -1,0 +1,13 @@
+.div-list {
+  padding: 0 50px 50px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  @include mq(640) {
+    padding: 0 20px 20px 20px;
+  }
+  @include mq(400) {
+    padding: 0 10px 10px 10px;
+  }
+}

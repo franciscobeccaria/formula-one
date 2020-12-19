@@ -1,0 +1,27 @@
+.circuit-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $color-bg;
+  border: 1px solid $color-white;
+  height: 125px;
+  width: 200px;
+  margin: 20px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    background-color: $color-first;
+  }
+  @include mq(640) {
+    height: 80px;
+    width: 128px;
+    margin: 10px;
+    font-size: 11px;
+  }
+}
+
+.circuit-card * {
+  color: $color-white;
+}
