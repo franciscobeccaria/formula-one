@@ -1,0 +1,22 @@
+.driver-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.driver-card-footer {
+  padding-top: 20px;
+  color: $color-white;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: pointer;
+  &:hover {
+    color: $color-second;
+  }
+}
+
+.driver-card-footer span {
+  padding-left: 15px;
+}

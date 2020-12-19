@@ -1,0 +1,91 @@
+.driver-card {
+  height: 400px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-first;
+  border-radius: 10px;
+  @include mq(640) {
+    height: 300px;
+    width: 260px;
+  }
+}
+
+.driver-card-superior {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0 20px 20px;
+  @include mq(640) {
+    padding: 15px 0 15px 15px;
+  }
+}
+
+.driver-card-inferior {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 100%;
+  padding-bottom: 10px;
+  @include mq(640) {
+    padding: 15px 0 15px 15px;
+  }
+}
+
+.driver-card-image {
+  width: 200px;
+  border-radius: 10px;
+  @include mq(640) {
+    width: 130px;
+  }
+}
+
+.driver-card-image img {
+  object-fit: cover;
+  width: 200px;
+  border-radius: 10px;
+  @include mq(640) {
+    width: 130px;
+  }
+}
+
+.driver-card-info {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  margin-left: 15px;
+  @include mq(640) {
+    margin-left: 10px;
+  }
+}
+
+.driver-card-info div {
+  text-align: center;
+}
+
+.driver-card-info-image {
+  width: 70px;
+  height: 70px;
+  @include mq(640) {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.driver-card * {
+  color: $color-white;
+}
+
+.driver-card-inferior p {
+  font-weight: 700;
+  font-size: 30px;
+  @include mq(640) {
+    font-size: 25px;
+  }
+}
