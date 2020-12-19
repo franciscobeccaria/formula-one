@@ -1,0 +1,48 @@
+.search-modal-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: $color-bg;
+  top: 0;
+  left: 0;
+}
+
+.search-input {
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  border-bottom: 0.5px solid $color-white;
+  font-size: 50px;
+  color: $color-white;
+  margin-right: 50px;
+  @include mq(1024) {
+    font-size: 35px;
+  }
+  @include mq(770) {
+    font-size: 25px;
+    margin-right: 30px;
+  }
+  @include mq(640) {
+    font-size: 15px;
+    margin-right: 30px;
+  }
+}
+
+.close-search-modal {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  color: $color-white;
+  cursor: pointer;
+  &:hover {
+    color: $color-first;
+  }
+}
+
+.icon-search-modal {
+  color: $color-white;
+  cursor: pointer;
+  &:hover {
+    color: $color-first;
+  }
+}

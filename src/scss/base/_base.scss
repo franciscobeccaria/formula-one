@@ -27,10 +27,6 @@ a {
   color: black;
 }
 
-.no-show {
-  display: none;
-}
-
 .show-flex {
   display: flex;
 }
@@ -39,6 +35,10 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.no-show {
+  display: none;
 }
 
 .text-align-center {
