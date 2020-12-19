@@ -111,6 +111,13 @@ th {
 table {
   margin: 20px; }
 
+.driver-link,
+.team-link {
+  cursor: pointer; }
+  .driver-link:hover,
+  .team-link:hover {
+    color: #ef476f; }
+
 .main-header {
   width: 100%;
   height: 100px;

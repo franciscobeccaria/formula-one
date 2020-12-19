@@ -58,3 +58,11 @@ th {
 table {
   margin: 20px;
 }
+
+.driver-link,
+.team-link {
+  cursor: pointer;
+  &:hover {
+    color: $color-fourth;
+  }
+}
