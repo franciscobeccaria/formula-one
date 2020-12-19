@@ -1,0 +1,60 @@
+table {
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: $color-third;
+}
+
+tr:nth-child(odd) {
+  background-color: $color-second;
+}
+
+table tr:first-child {
+  background-color: $color-first;
+  color: $color-white;
+}
+
+td,
+th {
+  padding: 5px;
+  font-size: 15px;
+  @include mq(640) {
+    padding: 2px;
+    font-size: 10px;
+  }
+}
+
+.driver-image-div {
+  height: 70px;
+  @include mq(400) {
+    height: 55px;
+  }
+}
+
+.driver-image {
+  object-fit: cover;
+  height: 70px;
+  @include mq(400) {
+    height: 55px;
+  }
+}
+
+.nation-image-div {
+  height: 35px;
+  @include mq(400) {
+    height: 25px;
+  }
+}
+
+.nation-image {
+  object-fit: cover;
+  height: 35px;
+  @include mq(400) {
+    height: 25px;
+  }
+}
+
+table {
+  margin: 20px;
+}
