@@ -802,3 +802,116 @@ const mainCircuitPage = `
               </div>
           </div>
 `;
+
+const mainSeasonPage = `
+        <div class="div-title center"><h1>Circuits</h1></div>
+        <div class="div-list">
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+            <div class="race-card">
+                <div class="center"><h4>Australia GP</h4></div>
+                <div class="center">Albert Park</div>
+                <div class="center">2019-03-17</div>
+                <div class="center">#1 of 2019</div>
+            </div>
+`;

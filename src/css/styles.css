@@ -93,6 +93,12 @@
   flex-wrap: wrap;
   margin: 50px; }
 
+.div-container-race-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; }
+
 .season-title-container * {
   color: #ffffff;
   margin: 5px; }
