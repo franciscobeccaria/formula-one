@@ -789,3 +789,16 @@ const mainCircuitsPage = `
             </div>
         </div>
 `;
+
+const mainCircuitPage = `
+          <div class="div-title center text-align-center"><h1>Australia Grand Prix</h1></div>
+          <div class="circuit-container center">
+              <div class="circuit-image-bg"><div class="circuit-image-container"><img src="https://media.api-sports.io/formula-1/circuits/12.png" alt=""></div></div>
+              <div class="circuit-info">
+                  <h4>Albert Park in <br><strong>Melbourne, Australia</strong></h4>
+                  <p><strong>Length: </strong>5.303 kms</p>
+                  <p><strong>Capacity: </strong>80.000</p>
+                  <p><strong>Opened: </strong>1953</p>
+              </div>
+          </div>
+`;
