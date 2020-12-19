@@ -65,6 +65,25 @@
   flex-wrap: wrap;
   margin: 50px; }
 
+.section-team-page * {
+  color: #ffffff; }
+
+.div-team-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; }
+
+.div-team-info div p {
+  text-align: right;
+  margin: 20px; }
+
+.div-team-engine {
+  flex-direction: column; }
+
+.div-team-engine p {
+  margin: 10px; }
+
 button {
   outline: none;
   border: 0px;

@@ -280,3 +280,62 @@ const mainHomePage = `
             </div>
         </section>
 `;
+
+const mainDriverPage = `
+        <section class="driver-page">
+            <div class="driver-card-container">
+                <div class="driver-card">
+                    <div class="driver-card-superior">
+                        <div class="driver-card-image"><img src="https://media.api-sports.io/formula-1/drivers/20.png" alt=""></div>
+                        <div class="driver-card-info">
+                            <div class="driver-card-info-image"><img src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div>
+                            <div class="driver-card-info-born">Born in Jan. 7, 1985</div>
+                            <div class="driver-card-info-age">25 years old</div>
+                        </div>
+                    </div>
+                    <div class="driver-card-inferior"><p class="driver-link">Lewis Hamilton</p></div>
+                </div>
+                <div class="driver-card-footer center">Wikipedia <span><i class="fas fa-external-link-alt"></i></span></div>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>Season</th>
+                        <th>Team</th>
+                        <th></th>
+                        <th>Result</th>
+                    </tr>
+                    <tr>
+                        <td>2020</td>
+                        <td class="team-link">Mercedes AMG Petronas</td>
+                        <td><div><img src="" alt=""></div></td>
+                        <td>Champion</td>
+                    </tr>
+                    <tr>
+                        <td>2020</td>
+                        <td class="team-link">Mercedes AMG Petronas</td>
+                        <td><div><img src="" alt=""></div></td>
+                        <td>Champion</td>
+                    </tr>
+                    <tr>
+                        <td>2020</td>
+                        <td class="team-link">Mercedes AMG Petronas</td>
+                        <td><div><img src="" alt=""></div></td>
+                        <td>Champion</td>
+                    </tr>
+                    <tr>
+                        <td>2020</td>
+                        <td class="team-link">Mercedes AMG Petronas</td>
+                        <td><div><img src="" alt=""></div></td>
+                        <td>Champion</td>
+                    </tr>
+                    <tr>
+                        <td>2020</td>
+                        <td class="team-link">Mercedes AMG Petronas</td>
+                        <td><div><img src="" alt=""></div></td>
+                        <td>Champion</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+`;

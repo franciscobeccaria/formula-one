@@ -1,0 +1,23 @@
+.section-team-page * {
+  color: $color-white;
+}
+
+.div-team-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.div-team-info div p {
+  text-align: right;
+  margin: 20px;
+}
+
+.div-team-engine {
+  flex-direction: column;
+}
+
+.div-team-engine p {
+  margin: 10px;
+}
