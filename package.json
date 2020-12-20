@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sass execute": "node-sass src/scss --output src/css",
+    "sass-execute": "node-sass src/scss --output src/css",
     "sass": "node-sass --watch src/scss --output src/css",
     "build": "webpack"
   },

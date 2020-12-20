@@ -1,7 +1,5 @@
 import Router from './router.js';
 
-console.log(Router);
-
 const headerNav = document.getElementById('main-header-nav');
 const closeMenu = document.getElementById('close-menu');
 const toggleMenu = document.getElementById('toggle-menu');
@@ -37,9 +35,7 @@ const mainHomePage = `
         </section>
         <section>
             <div class="div-title center">
-                <h2>
-                    Standings Preview
-                </h2>
+                <h2>Standings Preview</h2>
             </div>
             <div class="standings-tables">
                 <table id="home-drivers-rankings"></table>
@@ -53,79 +49,15 @@ const mainHomePage = `
 
 const mainDriverPage = `
         <section class="driver-page">
-            <div class="driver-card-container">
-                <div class="driver-card">
-                    <div class="driver-card-superior">
-                        <div class="driver-card-image"><img src="https://media.api-sports.io/formula-1/drivers/20.png" alt=""></div>
-                        <div class="driver-card-info">
-                            <div class="driver-card-info-image"><img src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div>
-                            <div class="driver-card-info-born">Born in Jan. 7, 1985</div>
-                            <div class="driver-card-info-age">25 years old</div>
-                        </div>
-                    </div>
-                    <div class="driver-card-inferior"><p class="driver-link">Lewis Hamilton</p></div>
-                </div>
-                <div class="driver-card-footer center">Wikipedia <span><i class="fas fa-external-link-alt"></i></span></div>
-            </div>
+            <div id="driver-card-container" class="driver-card-container"></div>
             <div>
-                <table>
-                    <tr>
-                        <th>Season</th>
-                        <th>Team</th>
-                        <th></th>
-                        <th>Result</th>
-                    </tr>
-                    <tr>
-                        <td>2020</td>
-                        <td class="team-link">Mercedes AMG Petronas</td>
-                        <td><div><img src="" alt=""></div></td>
-                        <td>Champion</td>
-                    </tr>
-                    <tr>
-                        <td>2020</td>
-                        <td class="team-link">Mercedes AMG Petronas</td>
-                        <td><div><img src="" alt=""></div></td>
-                        <td>Champion</td>
-                    </tr>
-                    <tr>
-                        <td>2020</td>
-                        <td class="team-link">Mercedes AMG Petronas</td>
-                        <td><div><img src="" alt=""></div></td>
-                        <td>Champion</td>
-                    </tr>
-                    <tr>
-                        <td>2020</td>
-                        <td class="team-link">Mercedes AMG Petronas</td>
-                        <td><div><img src="" alt=""></div></td>
-                        <td>Champion</td>
-                    </tr>
-                    <tr>
-                        <td>2020</td>
-                        <td class="team-link">Mercedes AMG Petronas</td>
-                        <td><div><img src="" alt=""></div></td>
-                        <td>Champion</td>
-                    </tr>
-                </table>
+                <table id="driver-page-table"></table>
             </div>
         </section>
 `;
 
 const mainTeamPage = `
-        <section class="section-team-page">
-            <div class="div-title center"><h1>Red Bull Racing</h1></div>
-            <div class="div-team-info">
-                <div><img src="https://media.api-sports.io/formula-1/teams/1.png" alt="Team Image"></div>
-                <div>
-                    <p><strong>President:</strong> Dietrich Mateschitz</p>
-                    <p><strong>Director:</strong> Christian Horner</p>
-                    <p><strong>Technical manager:</strong> Adrian Newey</p>
-                </div>
-            </div>
-            <div class="div-team-engine center">
-                <p><strong>Engine:</strong> Honda V6 turbo hybride</p>
-                <p><strong>Tyres:</strong> Pirelli</p>
-            </div>
-        </section>
+        <section id="section-team-page" class="section-team-page"></section>
 `;
 
 const mainStandingsPage = `
@@ -989,20 +921,94 @@ const mainRacePage = `
         </div>
 `;
 
-const container = document.getElementById('spa-container');
-
-/* const getById = () => {
-  if (document.getElementById('last-race-rankings')) {
-    document.getElementById('last-race-rankings').addEventListener('click', () => {});
+const getById = () => {
+  if (document.getElementById('go-to-home')) {
+    document.getElementById('go-to-home').addEventListener('click', () => {
+      Router.navigate();
+    });
   }
-}; */
+};
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('driver-link')) {
+    console.log(e.target.textContent);
+    const driverName = e.target.textContent;
+    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+  }
+  if (e.target.classList.contains('driver-image')) {
+    console.log(e.target.parentElement.parentElement.nextElementSibling.textContent);
+    const driverName = e.target.parentElement.parentElement.nextElementSibling.textContent;
+    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+  }
+  if (e.target.classList.contains('team-link')) {
+    console.log(e.target.textContent);
+    const driverName = e.target.textContent;
+    Router.navigate(`/team/${driverName.toLowerCase().replace(/ /g, '_')}`);
+  }
+  if (e.target.classList.contains('item')) {
+    headerNav.classList.remove('show-modal-menu');
+  }
+});
+
+document.getElementById('header-logo').addEventListener('click', () => {
+  Router.navigate();
+});
+
+document.getElementById('standings-item').addEventListener('click', () => {
+  Router.navigate('/standings');
+});
 
 document.addEventListener('DOMContentLoaded', () => {
-  container.innerHTML = `
-      ${mainHomePage}
-      `;
-  //getById();
-  UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
-  UI.drawDriversRanking(7, '2020');
-  UI.drawTeamsRanking(7, '2020');
+  if (sessionStorage.getItem('home-page') !== null) {
+    container.innerHTML = sessionStorage.getItem('home-page');
+  } else {
+    container.innerHTML = `
+    ${mainHomePage}
+    `;
+    UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
+    UI.drawDriversRanking(7, '2020');
+    UI.drawTeamsRanking(7, '2020');
+  }
+  getById();
 });
+
+Router.add(/standings/, () => {
+  container.innerHTML = `
+    <div>Estoy en el login</div>
+    <button id="go-to-home">Go to home</button>`;
+  getById();
+}).listen();
+
+Router.add(/driver/, () => {
+  console.log(window.location.pathname.slice(8).replace(/_/g, ' '));
+  const driverName = window.location.pathname.slice(8).replace(/_/g, ' ');
+  container.innerHTML = `
+      ${mainDriverPage}`;
+  UI.drawDriver(driverName);
+  getById();
+}).listen();
+
+Router.add(/team/, () => {
+  let teamName = window.location.pathname.slice(6).replace(/_/g, ' ');
+  if (teamName == 'mercedes-amg petronas') {
+    teamName = 'mercedes';
+  }
+  container.innerHTML = `
+        ${mainTeamPage}`;
+  UI.drawTeam('', teamName);
+  getById();
+}).listen();
+
+Router.add(() => {
+  if (sessionStorage.getItem('home-page') !== null) {
+    container.innerHTML = sessionStorage.getItem('home-page');
+  } else {
+    container.innerHTML = `
+    ${mainHomePage}
+    `;
+    UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
+    UI.drawDriversRanking(7, '2020');
+    UI.drawTeamsRanking(7, '2020');
+  }
+  getById();
+}).listen();

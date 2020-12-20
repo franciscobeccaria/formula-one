@@ -9,6 +9,12 @@
   flex-wrap: wrap;
 }
 
+.team-image-div-container {
+  background-color: $color-white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
 .div-team-info div p {
   text-align: right;
   margin: 20px;

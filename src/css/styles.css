@@ -112,6 +112,11 @@
   justify-content: center;
   flex-wrap: wrap; }
 
+.team-image-div-container {
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 5px; }
+
 .div-team-info div p {
   text-align: right;
   margin: 20px; }
@@ -255,6 +260,7 @@ table {
 
 .driver-card-image {
   width: 200px;
+  max-height: 300px;
   border-radius: 10px; }
   @media screen and (max-width: 640px) {
     .driver-card-image {
@@ -263,6 +269,7 @@ table {
 .driver-card-image img {
   object-fit: cover;
   width: 200px;
+  max-height: 300px;
   border-radius: 10px; }
   @media screen and (max-width: 640px) {
     .driver-card-image img {

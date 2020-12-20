@@ -5,6 +5,8 @@ const apiHeaders = {
   },
 };
 
+const container = document.getElementById('spa-container');
+
 class Driver {
   constructor(id, name, image, nationality, birthdate, teams) {
     this.id = id;
@@ -13,6 +15,33 @@ class Driver {
     this.nationality = nationality;
     this.birthdate = birthdate;
     this.teams = teams;
+  }
+  getDriverCardContainerHtml() {
+    return `
+                <div class="driver-card">
+                    <div class="driver-card-superior">
+                        <div class="driver-card-image"><img src="${this.image}" alt=""></div>
+                        <div class="driver-card-info">
+                            <div class="driver-card-info-image"><img src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div>
+                            <div class="driver-card-info-born">Born in ${this.birthdate}</div>
+                            <div class="driver-card-info-age">25 years old</div>
+                        </div>
+                    </div>
+                    <div class="driver-card-inferior"><p class="driver-link">${this.name}</p></div>
+                </div>
+                <div class="driver-card-footer center">Wikipedia <span><i class="fas fa-external-link-alt"></i></span></div>
+      `;
+  }
+  getDriverPageTableHtml(season, team, teamImage) {
+    return `
+                    
+                    <tr>
+                        <td>${season}</td>
+                        <td class="team-link">${team}</td>
+                        <td class="no-show"><div><img src="${teamImage}" alt="Team Image"></div></td>
+                        <td>Champion</td>
+                    </tr>
+      `;
   }
 }
 
@@ -26,6 +55,23 @@ class Team {
     this.technicalManager = technicalManager;
     this.engine = engine;
     this.tyres = tyres;
+  }
+  getTeamPageHtml() {
+    return `
+            <div class="div-title center"><h1>${this.name}</h1></div>
+            <div class="div-team-info">
+                <div class="team-image-div-container"><img src="${this.logo}" alt="Team Image"></div>
+                <div>
+                    <p><strong>President:</strong> ${this.president}</p>
+                    <p><strong>Director:</strong> ${this.director}</p>
+                    <p><strong>Technical manager:</strong> ${this.technicalManager}</p>
+                </div>
+            </div>
+            <div class="div-team-engine center">
+                <p><strong>Engine:</strong> ${this.engine}</p>
+                <p><strong>Tyres:</strong> ${this.tyres}</p>
+            </div>
+      `;
   }
 }
 
@@ -203,9 +249,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/drivers${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 
   static async getTeams(nameValue, searchValue, idValue) {
@@ -218,9 +262,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/teams${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 
   static async getTeamsRankings(seasonValue, teamValue) {
@@ -315,6 +357,7 @@ class UI {
       });
       document.getElementById('home-drivers-rankings').innerHTML = driversTableHtml;
     });
+    sessionStorage.setItem('home-page', container.innerHTML);
   }
 
   static async drawTeamsRanking(tableLength, seasonValue, teamValue) {
@@ -334,6 +377,7 @@ class UI {
       });
       document.getElementById('home-teams-rankings').innerHTML = teamsTableHtml;
     });
+    sessionStorage.setItem('home-page', container.innerHTML);
   }
 
   static async drawRaceRanking(tableLength, raceValue, teamValue, driverValue) {
@@ -369,6 +413,7 @@ class UI {
       });
     });
     document.getElementById('last-race-rankings').innerHTML = raceTableHtml;
+    sessionStorage.setItem('home-page', container.innerHTML);
   }
 
   static async drawRaceInformation(
@@ -414,6 +459,52 @@ class UI {
         UI.drawRaceRanking(tableLength, idLastRace);
       }
     );
+    sessionStorage.setItem('home-page', container.innerHTML);
+  }
+
+  static async drawDriver(nameValue, searchValue, idValue) {
+    let driverTeamsTable = `
+                    <tr>
+                        <th>Season</th>
+                        <th>Team</th>
+                        <th class="no-show"></th>
+                        <th>Result</th>
+                    </tr>
+      `;
+    await API.getDrivers(nameValue, searchValue, idValue).then(function (response) {
+      const driverData = response.data.response[0];
+      const driver = new Driver(
+        driverData.id,
+        driverData.name,
+        driverData.image,
+        driverData.nationality,
+        driverData.birthdate,
+        driverData.teams
+      );
+      document.getElementById('driver-card-container').innerHTML = driver.getDriverCardContainerHtml();
+      driver.teams.forEach((row) => {
+        driverTeamsTable = driverTeamsTable.concat(driver.getDriverPageTableHtml(row.season, row.team.name, row.team.image));
+      });
+      document.getElementById('driver-page-table').innerHTML = driverTeamsTable;
+    });
+  }
+
+  static async drawTeam(nameValue, searchValue, idValue) {
+    await API.getTeams(nameValue, searchValue, idValue).then(function (response) {
+      console.log(response.data.response[0]);
+      const teamData = response.data.response[0];
+      const team = new Team(
+        teamData.id,
+        teamData.name,
+        teamData.logo,
+        teamData.president,
+        teamData.director,
+        teamData.technicalManager,
+        teamData.engine,
+        teamData.tyres
+      );
+      document.getElementById('section-team-page').innerHTML = team.getTeamPageHtml();
+    });
   }
 }
 
