@@ -27,3 +27,4 @@ PROYECTO NO TERMINADO HASTA:
 - Mejorar Objetos Row y dejar solo 1 objeto Row.
 - Tener coherencia en Objetos. Como por ejemplo, en todos voy a tener el getHtml. En Race creo que no lo tengo. Hay que actualizar.
 - Faltó la page Seasons. Esta la page Season, que es la Season actual, pero cómo hago para ver la Season 2019?. Tengo que agregar un See All Seasons en Season, o algo similar.
+- Hay que resolver muchos temas de Estilos. Revisar página por página. (Voy anotando algunos: Circuit Card, Circuit Image in Circuit Page)

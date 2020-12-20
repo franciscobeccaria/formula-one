@@ -100,6 +100,30 @@ class Circuit {
     this.capacity = capacity;
     this.opened = opened;
   }
+  getCircuitCard() {
+    return `
+            <div class="circuit-card">
+                <div class="center">${this.competition.name}</div>
+                <div class="center">${this.name}</div>
+                <div class="center">${this.competition.location.city}, ${this.competition.location.country}</div>
+                <div class="no-show">${this.id}</div>
+            </div>
+      `;
+  }
+  getCircuitPageHtml() {
+    return `
+        <div class="div-title center text-align-center"><h1>${this.competition.name}</h1></div>
+          <div class="circuit-container center">
+              <div class="circuit-image-bg"><div class="circuit-image-container"><img src="${this.image}" alt="Circuit Image"></div></div>
+              <div class="circuit-info">
+                  <h4>${this.competition.name} in <br><strong>${this.competition.location.city}, ${this.competition.location.country}</strong></h4>
+                  <p><strong>Length: </strong>${this.km}</p>
+                  <p><strong>Capacity: </strong>${this.capacity}</p>
+                  <p><strong>Opened: </strong>${this.opened}</p>
+              </div>
+        </div>
+      `;
+  }
 }
 
 class Standing {
@@ -213,9 +237,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/circuits${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 
   static async getCompetitions(countryValue, nameValue, searchValue, cityValue, idValue) {
@@ -336,7 +358,7 @@ class API {
 }
 
 class UI {
-  static async drawDriversRanking(tableLength, seasonValue, teamValue, driverValue) {
+  static async drawDriversRanking(idTableContainer, tableLength, seasonValue, teamValue, driverValue) {
     let driversTableHtml = `
                     <tr>
                         <th>P.</th>
@@ -355,12 +377,14 @@ class UI {
         const driversRow = new DriversRow(row.position, row.driver, row.team, row.points, row.wins, row.behind, row.season);
         driversTableHtml = driversTableHtml.concat(driversRow.getDriversRowHtml());
       });
-      document.getElementById('home-drivers-rankings').innerHTML = driversTableHtml;
+      document.getElementById(idTableContainer).innerHTML = driversTableHtml;
     });
-    sessionStorage.setItem('home-page', container.innerHTML);
+    if (location.pathname === '/') {
+      sessionStorage.setItem('home-page', container.innerHTML);
+    }
   }
 
-  static async drawTeamsRanking(tableLength, seasonValue, teamValue) {
+  static async drawTeamsRanking(idTableContainer, tableLength, seasonValue, teamValue) {
     let teamsTableHtml = `
                     <tr>
                         <th>P.</th>
@@ -375,9 +399,11 @@ class UI {
         const teamsRow = new TeamsRow(row.position, row.team, row.points, row.season);
         teamsTableHtml = teamsTableHtml.concat(teamsRow.getTeamsRowHtml());
       });
-      document.getElementById('home-teams-rankings').innerHTML = teamsTableHtml;
+      document.getElementById(idTableContainer).innerHTML = teamsTableHtml;
     });
-    sessionStorage.setItem('home-page', container.innerHTML);
+    if (location.pathname === '/') {
+      sessionStorage.setItem('home-page', container.innerHTML);
+    }
   }
 
   static async drawRaceRanking(tableLength, raceValue, teamValue, driverValue) {
@@ -413,7 +439,9 @@ class UI {
       });
     });
     document.getElementById('last-race-rankings').innerHTML = raceTableHtml;
-    sessionStorage.setItem('home-page', container.innerHTML);
+    if (location.pathname === '/') {
+      sessionStorage.setItem('home-page', container.innerHTML);
+    }
   }
 
   static async drawRaceInformation(
@@ -459,7 +487,9 @@ class UI {
         UI.drawRaceRanking(tableLength, idLastRace);
       }
     );
-    sessionStorage.setItem('home-page', container.innerHTML);
+    if (location.pathname === '/') {
+      sessionStorage.setItem('home-page', container.innerHTML);
+    }
   }
 
   static async drawDriver(nameValue, searchValue, idValue) {
@@ -504,6 +534,41 @@ class UI {
         teamData.tyres
       );
       document.getElementById('section-team-page').innerHTML = team.getTeamPageHtml();
+    });
+  }
+
+  static async drawCircuits(searchValue, competitionValue, idValue) {
+    API.getCircuits(searchValue, competitionValue, idValue).then(function (response) {
+      response.data.response.forEach((circuitData) => {
+        const circuit = new Circuit(
+          circuitData.id,
+          circuitData.name,
+          circuitData.image,
+          circuitData.competition,
+          circuitData.length,
+          circuitData.capacity,
+          circuitData.opened
+        );
+        const circuitCard = circuit.getCircuitCard();
+        document.getElementById('circuit-card-container-circuits-page').insertAdjacentHTML('beforeend', circuitCard);
+      });
+    });
+  }
+
+  static async drawCircuit(searchValue, competitionValue, idValue) {
+    API.getCircuits(searchValue, competitionValue, idValue).then(function (response) {
+      console.log(response.data.response[0]);
+      const circuitData = response.data.response[0];
+      const circuit = new Circuit(
+        circuitData.id,
+        circuitData.name,
+        circuitData.image,
+        circuitData.competition,
+        circuitData.length,
+        circuitData.capacity,
+        circuitData.opened
+      );
+      container.innerHTML = circuit.getCircuitPageHtml();
     });
   }
 }
