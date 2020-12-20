@@ -88,6 +88,17 @@ class Race {
     this.type = type;
     this.weather = weather;
   }
+  getRaceCard() {
+    return `
+            <div class="race-card">
+                <div class="center"><h4>${this.competition.name}</h4></div>
+                <div class="center">${this.circuit.name}</div>
+                <div class="center">${this.date.slice(0, 9)}7</div>
+                <div class="center">${this.status}</div>
+                <div class="no-show">${this.id}</div>
+            </div>
+      `;
+  }
 }
 
 class Circuit {
@@ -122,6 +133,20 @@ class Circuit {
                   <p><strong>Opened: </strong>${this.opened}</p>
               </div>
         </div>
+      `;
+  }
+}
+
+class Season {
+  constructor(year) {
+    this.year = year;
+  }
+  getSeasonCard() {
+    return `
+            <div class="season-card">
+                <div class="center">Season</div>
+                <div class="center">${this.year}</div>
+            </div>
       `;
   }
 }
@@ -355,6 +380,11 @@ class API {
     const url = `https://api-formula-1.p.rapidapi.com/races${params}`;
     return await axios.get(url, apiHeaders);
   }
+
+  static async getSeasons() {
+    const url = `https://api-formula-1.p.rapidapi.com/seasons`;
+    return await axios.get(url, apiHeaders);
+  }
 }
 
 class UI {
@@ -556,7 +586,7 @@ class UI {
   }
 
   static async drawCircuit(searchValue, competitionValue, idValue) {
-    API.getCircuits(searchValue, competitionValue, idValue).then(function (response) {
+    await API.getCircuits(searchValue, competitionValue, idValue).then(function (response) {
       console.log(response.data.response[0]);
       const circuitData = response.data.response[0];
       const circuit = new Circuit(
@@ -570,6 +600,40 @@ class UI {
       );
       container.innerHTML = circuit.getCircuitPageHtml();
     });
+  }
+
+  static async drawSeasons() {
+    await API.getSeasons().then(function (response) {
+      response.data.response.forEach((seasonYear) => {
+        const season = new Season(seasonYear);
+        const seasonCard = season.getSeasonCard();
+        document.getElementById('circuit-card-container-circuits-page').insertAdjacentHTML('beforeend', seasonCard);
+      });
+    });
+  }
+
+  static async drawSeason(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue) {
+    await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue).then(
+      function (response) {
+        console.log(response.data.response);
+        response.data.response.forEach((raceData) => {
+          const race = new Race(
+            '',
+            raceData.season,
+            raceData.circuit,
+            raceData.competition,
+            raceData.date,
+            raceData.id,
+            raceData.laps,
+            raceData.status,
+            raceData.type,
+            raceData.weather
+          );
+          const raceCard = race.getRaceCard();
+          document.getElementById('race-card-container-season-page').insertAdjacentHTML('beforeend', raceCard);
+        });
+      }
+    );
   }
 }
 

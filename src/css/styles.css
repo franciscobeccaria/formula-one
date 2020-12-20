@@ -230,6 +230,34 @@ table {
 .circuit-card div {
   margin: 5px; }
 
+.season-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #073b4c;
+  border: 1px solid #ffffff;
+  height: 125px;
+  width: 200px;
+  margin: 20px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer; }
+  .season-card:hover {
+    background-color: #118ab2; }
+  @media screen and (max-width: 640px) {
+    .season-card {
+      height: 80px;
+      width: 128px;
+      margin: 10px;
+      font-size: 11px; } }
+
+.season-card * {
+  color: #ffffff; }
+
+.season-card div {
+  margin: 5px; }
+
 .driver-card {
   height: 400px;
   width: 350px;
