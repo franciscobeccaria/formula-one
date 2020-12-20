@@ -27,110 +27,11 @@ closeSearchModal.addEventListener('click', () => {
 
 const mainHomePage = `
         <section class="last-race-section">
-            <div class="div-title center"><h2>Australia Grand Prix</h2></div>
+            <div class="div-title center"><h2 id="last-race-title"></h2></div>
             <div class="div-container">
-                <div class="div-info">
-                    <p><strong>Sunday, March 17, 2019</strong></p>
-                    <p>Albert Park in <br><strong>Melbourne, Australia</strong></p>
-                    <p><strong>Race</strong> #1<br><strong>Season</strong> 2019</p>
-                    <p><strong>Weather:</strong> Sunny   <span><i class="fas fa-sun"></i></span></p>
-                    <p><strong>Status:</strong> Completed</p>
-                    <button>See Complete GP Information</button>
-                </div>
+                <div id="last-race-info" class="div-info"></div>
                 <div class="div-table">
-                    <table>
-                        <tr>
-                            <th>P.</th>
-                            <th></th>
-                            <th>Driver</th>
-                            <th></th>
-                            <th>Team</th>
-                            <th></th>
-                            <th>Time</th>
-                            <th>Diff.</th>
-                            <th>L</th>
-                            <th>B</th>
-                            <th>G</th>
-                        </tr>
-                        <tr>
-                            <td>1°</td>
-                            <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="https://media.api-sports.io/formula-1/drivers/20.png" alt="Driver Image"></div></td>
-                            <td class="driver-link">Lewis Hamilton</td>
-                            <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
-                            <td class="team-link">Mercedes AMG Petronas</td>
-                            <td class="team-link"><img src="" alt=""></td>
-                            <td>1'20.486</td>
-                            <td>1'20.486</td>
-                            <td>58</td>
-                            <td>1</td>
-                            <td>2°</td>
-                        </tr>
-                        <tr>
-                            <td>1°</td>
-                            <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="https://media.api-sports.io/formula-1/drivers/20.png" alt="Driver Image"></div></td>
-                            <td class="driver-link">Lewis Hamilton</td>
-                            <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
-                            <td class="team-link">Mercedes AMG Petronas</td>
-                            <td class="team-link"><img src="" alt=""></td>
-                            <td>1'20.486</td>
-                            <td>1'20.486</td>
-                            <td>58</td>
-                            <td>1</td>
-                            <td>2°</td>
-                        </tr>
-                        <tr>
-                            <td>1°</td>
-                            <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="https://media.api-sports.io/formula-1/drivers/20.png" alt="Driver Image"></div></td>
-                            <td class="driver-link">Lewis Hamilton</td>
-                            <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
-                            <td class="team-link">Mercedes AMG Petronas</td>
-                            <td class="team-link"><img src="" alt=""></td>
-                            <td>1'20.486</td>
-                            <td>1'20.486</td>
-                            <td>58</td>
-                            <td>1</td>
-                            <td>2°</td>
-                        </tr>
-                        <tr>
-                            <td>1°</td>
-                            <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="https://media.api-sports.io/formula-1/drivers/20.png" alt="Driver Image"></div></td>
-                            <td class="driver-link">Lewis Hamilton</td>
-                            <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
-                            <td class="team-link">Mercedes AMG Petronas</td>
-                            <td class="team-link"><img src="" alt=""></td>
-                            <td>1'20.486</td>
-                            <td>1'20.486</td>
-                            <td>58</td>
-                            <td>1</td>
-                            <td>2°</td>
-                        </tr>
-                        <tr>
-                            <td>1°</td>
-                            <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="https://media.api-sports.io/formula-1/drivers/20.png" alt="Driver Image"></div></td>
-                            <td class="driver-link">Lewis Hamilton</td>
-                            <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
-                            <td class="team-link">Mercedes AMG Petronas</td>
-                            <td class="team-link"><img src="" alt=""></td>
-                            <td>1'20.486</td>
-                            <td>1'20.486</td>
-                            <td>58</td>
-                            <td>1</td>
-                            <td>2°</td>
-                        </tr>
-                        <tr>
-                            <td>1°</td>
-                            <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="https://media.api-sports.io/formula-1/drivers/20.png" alt="Driver Image"></div></td>
-                            <td class="driver-link">Lewis Hamilton</td>
-                            <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
-                            <td class="team-link">Mercedes AMG Petronas</td>
-                            <td class="team-link"><img src="" alt=""></td>
-                            <td>1'20.486</td>
-                            <td>1'20.486</td>
-                            <td>58</td>
-                            <td>1</td>
-                            <td>2°</td>
-                        </tr>
-                    </table>
+                    <table id="last-race-rankings"></table>
                 </div>
             </div>
         </section>
@@ -1229,3 +1130,19 @@ const mainRacePage = `
             </div>
         </div>
 `;
+
+const container = document.getElementById('spa-container');
+
+/* const getById = () => {
+  if (document.getElementById('last-race-rankings')) {
+    document.getElementById('last-race-rankings').addEventListener('click', () => {});
+  }
+}; */
+
+document.addEventListener('DOMContentLoaded', () => {
+  container.innerHTML = `
+      ${mainHomePage}
+      `;
+  //getById();
+  UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
+});

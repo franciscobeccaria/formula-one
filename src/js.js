@@ -76,6 +76,23 @@ class RacesRow {
     this.pits = pits;
     this.gap = gap;
   }
+  getRacesRowHtml() {
+    return `
+      <tr>
+          <td>${this.position}°</td>
+          <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="${this.driver.image}" alt="Driver Image"></div></td>
+          <td class="driver-link">${this.driver.name}</td>
+          <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
+          <td class="team-link">${this.team.name}</td>
+          <td class="team-link"><img src="" alt=""></td>
+          <td>${this.time}</td>
+          <td class="no-show">1'20.486</td>
+          <td>${this.laps}</td>
+          <td>${this.pits}</td>
+          <td>${this.grid}°</td>
+      </tr>
+`;
+  }
 }
 
 class DriversRow {
@@ -228,9 +245,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/rankings/races${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 
   static async getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue) {
@@ -247,16 +262,95 @@ class API {
     let params = '';
     paramsArray.forEach((param) => {
       params = params.concat(param);
-      console.log(params);
     });
     if (params !== '') {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/races${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 }
 
-class UI {}
+class UI {
+  static async drawRaceRanking(tableLength, raceValue, teamValue, driverValue) {
+    let raceTableHtml = `
+    <tr>
+        <th>P.</th>
+        <th></th>
+        <th>Driver</th>
+        <th></th>
+        <th>Team</th>
+        <th></th>
+        <th>Time</th>
+        <th class="no-show">Diff.</th>
+        <th>L</th>
+        <th>B</th>
+        <th>G</th>
+    </tr>
+`;
+    await API.getRaceRankings(raceValue, teamValue, driverValue).then(function (response) {
+      response.data.response.slice(0, tableLength).forEach((row) => {
+        const racesRow = new RacesRow(
+          row.race.id,
+          row.driver,
+          row.team,
+          row.position,
+          row.time,
+          row.laps,
+          row.grid,
+          row.pits,
+          row.gap
+        );
+        raceTableHtml = raceTableHtml.concat(racesRow.getRacesRowHtml());
+      });
+    });
+    document.getElementById('last-race-rankings').innerHTML = raceTableHtml;
+  }
+
+  static async drawRaceInformation(
+    tableLength,
+    competitionValue,
+    seasonValue,
+    idValue,
+    typeValue,
+    timezoneValue,
+    dateValue,
+    nextValue,
+    lastValue
+  ) {
+    await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue).then(
+      function (response) {
+        const raceData = response.data.response[0];
+        console.log(raceData);
+        const race = new Race(
+          '',
+          raceData.season,
+          raceData.circuit,
+          raceData.competition,
+          raceData.date,
+          raceData.id,
+          raceData.laps,
+          raceData.status,
+          raceData.type,
+          raceData.weather
+        );
+        let raceInformationHtml = `
+                    <p><strong>${race.date.slice(0, 10)}</strong></p>
+                    <p>${race.circuit.name} in <br><strong>${race.competition.location.city}, ${
+          race.competition.location.country
+        }</strong></p>
+                    <p><strong>Race</strong> #1<br><strong>Season</strong> ${race.season}</p>
+                    <p><strong>Weather:</strong> ${race.weather}   <span><i class="fas fa-sun"></i></span></p>
+                    <p><strong>Status:</strong> ${race.status}</p>
+                    <button id="load">See Complete GP Information</button>
+    `;
+        document.getElementById('last-race-info').innerHTML = raceInformationHtml;
+        document.getElementById('last-race-title').innerText = race.competition.name;
+        idLastRace = race.id;
+        UI.drawRaceRanking(tableLength, idLastRace);
+      }
+    );
+  }
+}
+
+let idLastRace;
