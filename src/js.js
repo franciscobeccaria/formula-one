@@ -105,6 +105,21 @@ class DriversRow {
     this.behind = behind;
     this.season = season;
   }
+  getDriversRowHtml() {
+    return `
+                    <tr>
+                        <td>${this.position}°</td>
+                        <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="${this.driver.image}" alt="Driver Image"></div></td>
+                        <td class="driver-link">${this.driver.name}</td>
+                        <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
+                        <td class="team-link">${this.team.name}</td>
+                        <td class="team-link"><img src="" alt=""></td>
+                        <td>${this.points}</td>
+                        <td>${this.behind}</td>
+                        <td>${this.wins}</td>
+                    </tr>
+      `;
+  }
 }
 
 class TeamsRow {
@@ -113,6 +128,17 @@ class TeamsRow {
     this.team = team;
     this.points = points;
     this.season = season;
+  }
+  getTeamsRowHtml() {
+    return `
+                    <tr>
+                        <td>${this.position}°</td>
+                        <td class="team-link">${this.team.name}</td>
+                        <td><img src="" alt=""></td>
+                        <td>${this.points}</td>
+                        <td>1'20.486</td>
+                    </tr>
+      `;
   }
 }
 
@@ -207,9 +233,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/rankings/teams${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 
   static async getDriversRankings(seasonValue, teamValue, driverValue) {
@@ -226,9 +250,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/rankings/drivers${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 
   static async getRaceRankings(raceValue, teamValue, driverValue) {
@@ -272,6 +294,48 @@ class API {
 }
 
 class UI {
+  static async drawDriversRanking(tableLength, seasonValue, teamValue, driverValue) {
+    let driversTableHtml = `
+                    <tr>
+                        <th>P.</th>
+                        <th></th>
+                        <th>Driver</th>
+                        <th></th>
+                        <th>Team</th>
+                        <th></th>
+                        <th>Time</th>
+                        <th>Diff.</th>
+                        <th>L</th>
+                    </tr>
+      `;
+    await API.getDriversRankings(seasonValue, teamValue, driverValue).then(function (response) {
+      response.data.response.slice(0, tableLength).forEach((row) => {
+        const driversRow = new DriversRow(row.position, row.driver, row.team, row.points, row.wins, row.behind, row.season);
+        driversTableHtml = driversTableHtml.concat(driversRow.getDriversRowHtml());
+      });
+      document.getElementById('home-drivers-rankings').innerHTML = driversTableHtml;
+    });
+  }
+
+  static async drawTeamsRanking(tableLength, seasonValue, teamValue) {
+    let teamsTableHtml = `
+                    <tr>
+                        <th>P.</th>
+                        <th>Team</th>
+                        <th></th>
+                        <th>Points</th>
+                        <th>Diff.</th>
+                    </tr>
+      `;
+    await API.getTeamsRankings(seasonValue, teamValue).then(function (response) {
+      response.data.response.slice(0, tableLength).forEach((row) => {
+        const teamsRow = new TeamsRow(row.position, row.team, row.points, row.season);
+        teamsTableHtml = teamsTableHtml.concat(teamsRow.getTeamsRowHtml());
+      });
+      document.getElementById('home-teams-rankings').innerHTML = teamsTableHtml;
+    });
+  }
+
   static async drawRaceRanking(tableLength, raceValue, teamValue, driverValue) {
     let raceTableHtml = `
     <tr>
