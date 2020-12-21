@@ -26,32 +26,7 @@ closeSearchModal.addEventListener('click', () => {
 
 class MainHtml {
   static getHome() {
-    return ``;
-  }
-  static getDriver() {
-    return ``;
-  }
-  static getTeam() {
-    return ``;
-  }
-  static getStandings() {
-    return ``;
-  }
-  static getCircuits() {
-    return ``;
-  }
-  static getSeasons() {
-    return ``;
-  }
-  static getSeason() {
-    return ``;
-  }
-  static getRace() {
-    return ``;
-  }
-}
-
-const mainHomePage = `
+    return `
         <section class="last-race-section">
             <div class="div-title center"><h2 id="last-race-title"></h2></div>
             <div class="div-container">
@@ -73,22 +48,25 @@ const mainHomePage = `
                 <button id="see-complete-standings-btn">See Complete Standings</button>
             </div>
         </section>
-`;
-
-const mainDriverPage = `
+    `;
+  }
+  static getDriver() {
+    return `
         <section class="driver-page">
             <div id="driver-card-container" class="driver-card-container"></div>
             <div>
                 <table id="driver-page-table"></table>
             </div>
         </section>
-`;
-
-const mainTeamPage = `
+    `;
+  }
+  static getTeam() {
+    return `
         <section id="section-team-page" class="section-team-page"></section>
-`;
-
-const mainStandingsPage = `
+    `;
+  }
+  static getStandings() {
+    return `
         <section class="season-title-container">
             <div class="div-title center"><h1>Season info</h1></div>
             <p class="center"><strong>Season: </strong><span id="season-standing-page">2019</span></p>
@@ -106,25 +84,29 @@ const mainStandingsPage = `
                 <table id="teams-table-standings-page"></table>
             </div>
         </section>
-`;
-
-const mainCircuitsPage = `
-    <div class="div-title center"><h1>Circuits</h1></div>
+    `;
+  }
+  static getCircuits() {
+    return `
+        <div class="div-title center"><h1>Circuits</h1></div>
         <div id="circuit-card-container-circuits-page" class="div-list"></div>
-`;
-
-const mainSeasonsPage = `
-    <div class="div-title center"><h1>Seasons</h1></div>
+    `;
+  }
+  static getSeasons() {
+    return `
+        <div class="div-title center"><h1>Seasons</h1></div>
         <div id="circuit-card-container-circuits-page" class="div-list"></div>
-`;
-
-const mainSeasonPage = `
+    `;
+  }
+  static getSeason() {
+    return `
         <div class="div-title center"><h1>Season</h1></div>
         <div class="center"><button id="see-season-standings">Season Standings</button></div>
         <div id="race-card-container-season-page" class="div-list"></div>
-`;
-
-const mainRacePage = `
+    `;
+  }
+  static getRace() {
+    return `
         <section class="last-race-section">
             <div class="div-title center"><h2 id="last-race-title"></h2></div>
             <div class="div-container">
@@ -134,7 +116,9 @@ const mainRacePage = `
                 </div>
             </div>
         </section>
-`;
+    `;
+  }
+}
 
 const getById = () => {
   if (document.getElementById('see-complete-standings-btn')) {
@@ -170,6 +154,9 @@ document.addEventListener('click', (e) => {
   }
   if (e.target.parentElement.classList.contains('race-card')) {
     Router.navigate(`/race/${e.target.parentElement.lastElementChild.innerHTML}`);
+  }
+  if (e.target.parentElement.parentElement.classList.contains('race-card')) {
+    Router.navigate(`/race/${e.target.parentElement.parentElement.lastElementChild.innerHTML}`);
   }
   if (e.target.classList.contains('season-card')) {
     Router.navigate(`/season/${e.target.lastElementChild.innerHTML}`);
@@ -223,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     container.innerHTML = sessionStorage.getItem('home-page');
   } else {
     container.innerHTML = `
-    ${mainHomePage}
+    ${MainHtml.getHome()}
     `;
     UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
     UI.drawDriversRanking('home-drivers-rankings', 7, '2020');
@@ -234,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 Router.add(/seasons/, () => {
   container.innerHTML = `
-        ${mainSeasonsPage}`;
+        ${MainHtml.getSeasons()}`;
   UI.drawSeasons();
   getById();
 }).listen();
@@ -242,7 +229,7 @@ Router.add(/seasons/, () => {
 Router.add(/season/, () => {
   const seasonYear = window.location.pathname.slice(8);
   container.innerHTML = `
-        ${mainSeasonPage}`;
+        ${MainHtml.getSeason()}`;
   UI.drawSeason('', seasonYear, '', 'race', '', '', '', '99');
   getById();
 }).listen();
@@ -250,14 +237,14 @@ Router.add(/season/, () => {
 Router.add(/race/, () => {
   const raceId = window.location.pathname.slice(6);
   container.innerHTML = `
-        ${mainRacePage}`;
+        ${MainHtml.getRace()}`;
   UI.drawRaceInformation(99, '', '', raceId);
   getById();
 }).listen();
 
 Router.add(/circuits/, () => {
   container.innerHTML = `
-      ${mainCircuitsPage}`;
+      ${MainHtml.getCircuits()}`;
   UI.drawCircuits();
   getById();
 }).listen();
@@ -271,7 +258,7 @@ Router.add(/circuit/, () => {
 Router.add(/standings/, () => {
   const seasonYear = window.location.pathname.slice(11);
   container.innerHTML = `
-    ${mainStandingsPage}`;
+    ${MainHtml.getStandings()}`;
   UI.drawDriversRanking('drivers-table-standings-page', 30, seasonYear);
   UI.drawTeamsRanking('teams-table-standings-page', 30, seasonYear);
   document.getElementById('season-standing-page').innerText = seasonYear;
@@ -282,7 +269,7 @@ Router.add(/driver/, () => {
   console.log(window.location.pathname.slice(8).replace(/_/g, ' '));
   const driverName = window.location.pathname.slice(8).replace(/_/g, ' ');
   container.innerHTML = `
-      ${mainDriverPage}`;
+      ${MainHtml.getDriver()}`;
   UI.drawDriver(driverName);
   getById();
 }).listen();
@@ -293,7 +280,7 @@ Router.add(/team/, () => {
     teamName = 'mercedes';
   }
   container.innerHTML = `
-        ${mainTeamPage}`;
+        ${MainHtml.getTeam()}`;
   UI.drawTeam('', teamName);
   getById();
 }).listen();
@@ -303,7 +290,7 @@ Router.add(() => {
     container.innerHTML = sessionStorage.getItem('home-page');
   } else {
     container.innerHTML = `
-    ${mainHomePage}
+    ${MainHtml.getHome()}
     `;
     UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
     UI.drawDriversRanking('home-drivers-rankings', 7, '2020');
