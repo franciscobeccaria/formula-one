@@ -88,6 +88,19 @@ class Race {
     this.type = type;
     this.weather = weather;
   }
+  getRaceInformationHtml() {
+    return `
+      <p><strong>${this.date.slice(0, 10)}</strong></p>
+                    <p>${this.circuit.name} in <br>
+                        <strong>${this.competition.location.city}, ${this.competition.location.country}</strong>
+                    </p>
+                    <p><strong>Race</strong> #1<br><strong>Season</strong> ${this.season}</p>
+                    <p><strong>Weather:</strong> ${this.weather}   <span><i class="fas fa-sun"></i></span></p>
+                    <p><strong>Status:</strong> ${this.status}</p>
+                    <button id="see-race-information-btn">See Complete GP Information</button>
+                    <div class="no-show">${this.id}</div>
+      `;
+  }
   getRaceCard() {
     return `
             <div class="race-card">
@@ -501,17 +514,7 @@ class UI {
           raceData.type,
           raceData.weather
         );
-        let raceInformationHtml = `
-                    <p><strong>${race.date.slice(0, 10)}</strong></p>
-                    <p>${race.circuit.name} in <br><strong>${race.competition.location.city}, ${
-          race.competition.location.country
-        }</strong></p>
-                    <p><strong>Race</strong> #1<br><strong>Season</strong> ${race.season}</p>
-                    <p><strong>Weather:</strong> ${race.weather}   <span><i class="fas fa-sun"></i></span></p>
-                    <p><strong>Status:</strong> ${race.status}</p>
-                    <button id="load">See Complete GP Information</button>
-    `;
-        document.getElementById('last-race-info').innerHTML = raceInformationHtml;
+        document.getElementById('last-race-info').innerHTML = race.getRaceInformationHtml();
         document.getElementById('last-race-title').innerText = race.competition.name;
         idLastRace = race.id;
         UI.drawRaceRanking(tableLength, idLastRace);
@@ -519,6 +522,8 @@ class UI {
     );
     if (location.pathname === '/') {
       sessionStorage.setItem('home-page', container.innerHTML);
+    } else {
+      document.getElementById('see-race-information-btn').classList.add('no-show');
     }
   }
 

@@ -108,14 +108,15 @@ const mainRacePage = `
 `;
 
 const getById = () => {
-  if (document.getElementById('go-to-home')) {
-    document.getElementById('go-to-home').addEventListener('click', () => {
-      Router.navigate();
-    });
-  }
   if (document.getElementById('see-complete-standings-btn')) {
     document.getElementById('see-complete-standings-btn').addEventListener('click', () => {
       Router.navigate('/standings');
+    });
+  }
+  if (document.getElementById('see-race-information-btn')) {
+    document.getElementById('see-race-information-btn').addEventListener('click', () => {
+      const raceId = document.getElementById('see-race-information-btn').parentElement.lastElementChild.textContent;
+      Router.navigate(`/race/${raceId}`);
     });
   }
 };
