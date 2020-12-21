@@ -24,9 +24,8 @@ Páginas del proyecto:
 
 PROYECTO NO TERMINADO HASTA:
 
-- Mejorar Objetos Row y dejar solo 1 objeto Row.
-- Tener coherencia en Objetos. Como por ejemplo, en todos voy a tener el getHtml. En Race creo que no lo tengo. Hay que actualizar.
-- Faltó la page Seasons. Esta la page Season, que es la Season actual, pero cómo hago para ver la Season 2019?. Tengo que agregar un See All Seasons en Season, o algo similar.
+- Agregar a Season Page un boton para ir a Standigs de esa temporada.
 - Hay que resolver muchos temas de Estilos. Revisar página por página. (Voy anotando algunos: Circuit Card, Circuit Image in Circuit Page)
 - Guardar algun tipo de key o algo así en sessionStorage para automatizar que si hubo una nueva carrera recargue la página y tome lo guardado en sessionStorage.
 - Ver si puedo cambiar los parametros de la url de la api. con new URLSearchParams. O con la api que encontre y me mande a wpp.
+- Esta quemado en el código el año 2020 en todos lados. Tengo que automatizarlo. Con la API está dificil. No se. Variable global creo que va a ser lo mejor. Ya que el 1 de enero de 2021 no creo que se actualice automaticamente la API.

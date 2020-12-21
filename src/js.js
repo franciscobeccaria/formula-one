@@ -164,14 +164,6 @@ class Season {
   }
 }
 
-class Standing {
-  constructor(raceId, results, response) {
-    this.raceId = raceId;
-    this.results = results;
-    this.response = response;
-  }
-}
-
 class RacesRow {
   constructor(raceId, driver, team, position, time, laps, grid, pits, gap) {
     this.raceId = raceId;
@@ -643,3 +635,5 @@ class UI {
 }
 
 let idLastRace;
+
+export { container, UI };

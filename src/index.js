@@ -1,4 +1,5 @@
 import Router from './router.js';
+import { container, UI } from './js.js';
 
 const headerNav = document.getElementById('main-header-nav');
 const closeMenu = document.getElementById('close-menu');
@@ -22,6 +23,33 @@ toggleSearch.addEventListener('click', () => {
 closeSearchModal.addEventListener('click', () => {
   searchModal.classList.add('no-show');
 });
+
+class MainHtml {
+  static getHome() {
+    return ``;
+  }
+  static getDriver() {
+    return ``;
+  }
+  static getTeam() {
+    return ``;
+  }
+  static getStandings() {
+    return ``;
+  }
+  static getCircuits() {
+    return ``;
+  }
+  static getSeasons() {
+    return ``;
+  }
+  static getSeason() {
+    return ``;
+  }
+  static getRace() {
+    return ``;
+  }
+}
 
 const mainHomePage = `
         <section class="last-race-section">
@@ -63,8 +91,8 @@ const mainTeamPage = `
 const mainStandingsPage = `
         <section class="season-title-container">
             <div class="div-title center"><h1>Season info</h1></div>
-            <p class="center"><strong>Season: </strong>2019</p>
-            <p class="center">20 completed races out of 30</p>
+            <p class="center"><strong>Season: </strong><span id="season-standing-page">2019</span></p>
+            <p class="center no-show">20 completed races out of 30</p>
         </section>
         <section>
             <div class="div-title center"><h1>Driver Standings</h1></div>
@@ -92,6 +120,7 @@ const mainSeasonsPage = `
 
 const mainSeasonPage = `
         <div class="div-title center"><h1>Season</h1></div>
+        <div class="center"><button id="see-season-standings">Season Standings</button></div>
         <div id="race-card-container-season-page" class="div-list"></div>
 `;
 
@@ -110,7 +139,8 @@ const mainRacePage = `
 const getById = () => {
   if (document.getElementById('see-complete-standings-btn')) {
     document.getElementById('see-complete-standings-btn').addEventListener('click', () => {
-      Router.navigate('/standings');
+      const seasonYear = '2020';
+      Router.navigate(`/standings/${seasonYear}`);
     });
   }
   if (document.getElementById('see-race-information-btn')) {
@@ -119,8 +149,15 @@ const getById = () => {
       Router.navigate(`/race/${raceId}`);
     });
   }
+  if (document.getElementById('see-season-standings')) {
+    document.getElementById('see-season-standings').addEventListener('click', () => {
+      const seasonYear = location.pathname.slice(8);
+      Router.navigate(`/standings/${seasonYear}`);
+    });
+  }
 };
 
+// Handles Dynamic Links from Classes of Cards
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('circuit-card')) {
     Router.navigate(`/circuit/${e.target.lastElementChild.innerHTML}`);
@@ -142,6 +179,7 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Handles Events from Classes
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('driver-link')) {
     console.log(e.target.textContent);
@@ -168,7 +206,8 @@ document.getElementById('header-logo').addEventListener('click', () => {
 });
 
 document.getElementById('standings-item').addEventListener('click', () => {
-  Router.navigate('/standings');
+  const seasonYear = '2020';
+  Router.navigate(`/standings/${seasonYear}`);
 });
 
 document.getElementById('circuits-item').addEventListener('click', () => {
@@ -230,10 +269,12 @@ Router.add(/circuit/, () => {
 }).listen();
 
 Router.add(/standings/, () => {
+  const seasonYear = window.location.pathname.slice(11);
   container.innerHTML = `
     ${mainStandingsPage}`;
-  UI.drawDriversRanking('drivers-table-standings-page', 30, '2020');
-  UI.drawTeamsRanking('teams-table-standings-page', 30, '2020');
+  UI.drawDriversRanking('drivers-table-standings-page', 30, seasonYear);
+  UI.drawTeamsRanking('teams-table-standings-page', 30, seasonYear);
+  document.getElementById('season-standing-page').innerText = seasonYear;
   getById();
 }).listen();
 
