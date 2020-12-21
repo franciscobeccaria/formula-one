@@ -1,3 +1,5 @@
+import Router from './router.js';
+
 const apiHeaders = {
   headers: {
     'x-rapidapi-key': '8e24c1ddadmsh14d300e160f7af5p1e6e9cjsnf29317490fbd',
@@ -43,6 +45,14 @@ class Driver {
                     </tr>
       `;
   }
+  getDriverCard() {
+    return `
+            <div class="driver-card-search">
+                <div class="center">${this.name}</div>
+                <div class="driver-card-info-image"><img src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div>
+            </div>
+      `;
+  }
 }
 
 class Team {
@@ -72,6 +82,13 @@ class Team {
                 <p><strong>Tyres:</strong> ${this.tyres}</p>
             </div>
       `;
+  }
+  getTeamCard() {
+    return `
+    <div class="team-card">
+        <div class="center">${this.name}</div>
+    </div>
+`;
   }
 }
 
@@ -286,9 +303,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/competitions${params}`;
-    await axios.get(url, apiHeaders).then(function (response) {
-      console.log(response.data);
-    });
+    return await axios.get(url, apiHeaders);
   }
 
   static async getDrivers(nameValue, searchValue, idValue) {
@@ -631,6 +646,82 @@ class UI {
         });
       }
     );
+  }
+
+  static inputSearch() {
+    if (document.getElementById('search-input').value.trim() === '') {
+      alert('Please insert something');
+    } else {
+      const inputData = document.getElementById('search-input').value.trim().replace(/ /g, '_');
+      let queryParams = new URLSearchParams(window.location.search);
+      queryParams.set('param', inputData);
+      history.replaceState(null, null, '?' + queryParams.toString());
+      document.getElementById('search-modal').classList.add('no-show');
+      document.getElementById('search-input').value = '';
+    }
+  }
+
+  static drawSearch(inputData) {
+    API.getDrivers('', inputData).then(function (response) {
+      if (response.data.results === 0) {
+        document.getElementById('search-drivers').innerHTML = 'NO RESULTS';
+        document.getElementById('search-drivers').style.color = 'white';
+      } else {
+        response.data.response.forEach((driverData) => {
+          const driver = new Driver(
+            driverData.id,
+            driverData.name,
+            driverData.image,
+            driverData.nationality,
+            driverData.birthdate,
+            driverData.teams
+          );
+          const driverCard = driver.getDriverCard();
+          document.getElementById('search-drivers').insertAdjacentHTML('beforeend', driverCard);
+        });
+      }
+    });
+    API.getCircuits(inputData).then(function (response) {
+      if (response.data.results === 0) {
+        document.getElementById('search-circuits').innerHTML = 'NO RESULTS';
+        document.getElementById('search-circuits').style.color = 'white';
+      } else {
+        response.data.response.forEach((circuitData) => {
+          const circuit = new Circuit(
+            circuitData.id,
+            circuitData.name,
+            circuitData.image,
+            circuitData.competition,
+            circuitData.length,
+            circuitData.capacity,
+            circuitData.opened
+          );
+          const circuitCard = circuit.getCircuitCard();
+          document.getElementById('search-circuits').insertAdjacentHTML('beforeend', circuitCard);
+        });
+      }
+    });
+    API.getTeams('', inputData).then(function (response) {
+      if (response.data.results === 0) {
+        document.getElementById('search-teams').innerHTML = 'NO RESULTS';
+        document.getElementById('search-teams').style.color = 'white';
+      } else {
+        response.data.response.forEach((teamData) => {
+          const team = new Team(
+            teamData.id,
+            teamData.name,
+            teamData.logo,
+            teamData.president,
+            teamData.director,
+            teamData.technicalManager,
+            teamData.engine,
+            teamData.tyres
+          );
+          const teamCard = team.getTeamCard();
+          document.getElementById('search-teams').insertAdjacentHTML('beforeend', teamCard);
+        });
+      }
+    });
   }
 }
 

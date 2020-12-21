@@ -258,6 +258,70 @@ table {
 .season-card div {
   margin: 5px; }
 
+.driver-card-search {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #073b4c;
+  border: 1px solid #ffffff;
+  height: 125px;
+  width: 200px;
+  margin: 20px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer; }
+  .driver-card-search:hover {
+    background-color: #118ab2; }
+  @media screen and (max-width: 640px) {
+    .driver-card-search {
+      height: 80px;
+      width: 128px;
+      margin: 10px;
+      font-size: 11px; } }
+
+.driver-card-search * {
+  color: #ffffff; }
+
+.driver-card-search div {
+  margin: 5px; }
+
+.driver-card-search div img {
+  height: 50px; }
+  @media screen and (max-width: 640px) {
+    .driver-card-search div img {
+      height: 30px; } }
+
+.team-card {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #073b4c;
+  border: 1px solid #ffffff;
+  height: 125px;
+  width: 200px;
+  margin: 20px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer; }
+  .team-card:hover {
+    background-color: #118ab2; }
+  @media screen and (max-width: 640px) {
+    .team-card {
+      height: 80px;
+      width: 128px;
+      margin: 10px;
+      font-size: 11px; } }
+
+.team-card * {
+  color: #ffffff; }
+
+.team-card div {
+  margin: 5px; }
+
 .driver-card {
   height: 400px;
   width: 350px;

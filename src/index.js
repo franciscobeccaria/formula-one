@@ -118,6 +118,23 @@ class MainHtml {
         </section>
     `;
   }
+  static getSearch(param) {
+    return `
+    <section><div class="div-title center"><h1>Results of '${param}'</h1></div></section>
+    <section>
+        <div class="div-title center"><h1>Drivers</h1></div>
+        <div id="search-drivers" class="div-list"></div>
+    </section>
+    <section>
+        <div class="div-title center"><h1>Circuits</h1></div>
+        <div id="search-circuits" class="div-list"></div>
+    </section>
+    <section>
+        <div class="div-title center"><h1>Teams</h1></div>
+        <div id="search-teams" class="div-list"></div>
+    </section>
+      `;
+  }
 }
 
 const getById = () => {
@@ -138,6 +155,11 @@ const getById = () => {
       const seasonYear = location.pathname.slice(8);
       Router.navigate(`/standings/${seasonYear}`);
     });
+  }
+  if (location.pathname === '/search') {
+    toggleSearch.classList.add('no-show');
+  } else {
+    toggleSearch.classList.remove('no-show');
   }
 };
 
@@ -164,6 +186,26 @@ document.addEventListener('click', (e) => {
   if (e.target.parentElement.classList.contains('season-card')) {
     Router.navigate(`/season/${e.target.parentElement.lastElementChild.innerHTML}`);
   }
+  if (e.target.classList.contains('driver-card-search')) {
+    const driverName = e.target.firstElementChild.textContent;
+    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+  }
+  if (e.target.parentElement.classList.contains('driver-card-search')) {
+    const driverName = e.target.parentElement.firstElementChild.textContent;
+    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+  }
+  if (e.target.parentElement.parentElement.classList.contains('driver-card-search')) {
+    const driverName = e.target.parentElement.parentElement.firstElementChild.textContent;
+    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+  }
+  if (e.target.classList.contains('team-card')) {
+    const teamName = e.target.firstElementChild.textContent;
+    Router.navigate(`/team/${teamName.toLowerCase().replace(/ /g, '_')}`);
+  }
+  if (e.target.parentElement.classList.contains('team-card')) {
+    const teamName = e.target.parentElement.firstElementChild.textContent;
+    Router.navigate(`/team/${teamName.toLowerCase().replace(/ /g, '_')}`);
+  }
 });
 
 // Handles Events from Classes
@@ -180,8 +222,8 @@ document.addEventListener('click', (e) => {
   }
   if (e.target.classList.contains('team-link')) {
     console.log(e.target.textContent);
-    const driverName = e.target.textContent;
-    Router.navigate(`/team/${driverName.toLowerCase().replace(/ /g, '_')}`);
+    const teamName = e.target.textContent;
+    Router.navigate(`/team/${teamName.toLowerCase().replace(/ /g, '_')}`);
   }
   if (e.target.classList.contains('item')) {
     headerNav.classList.remove('show-modal-menu');
@@ -205,6 +247,15 @@ document.getElementById('season-item').addEventListener('click', () => {
   Router.navigate('/seasons');
 });
 
+document.getElementById('search-input-btn').addEventListener('click', () => {
+  Router.navigate('/search');
+});
+/* document.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    search();
+  }
+}); */
+
 document.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('home-page') !== null) {
     container.innerHTML = sessionStorage.getItem('home-page');
@@ -218,6 +269,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   getById();
 });
+
+Router.add(/search/, () => {
+  UI.inputSearch();
+  const param = new URLSearchParams(window.location.search).get('param').replace(/_/g, ' ');
+  container.innerHTML = `
+  ${MainHtml.getSearch(param)}
+  `;
+  UI.drawSearch(param);
+  getById();
+}).listen();
 
 Router.add(/seasons/, () => {
   container.innerHTML = `
