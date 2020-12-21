@@ -30,3 +30,4 @@ PROYECTO NO TERMINADO HASTA:
 - Ver si puedo cambiar los parametros de la url de la api. con new URLSearchParams. O con la api que encontre y me mande a wpp.
 - Esta quemado en el código el año 2020 en todos lados. Tengo que automatizarlo. Con la API está dificil. No se. Variable global creo que va a ser lo mejor. Ya que el 1 de enero de 2021 no creo que se actualice automaticamente la API.
 - Recordar catch error o cosas así en cada petición y todos los lugares que debe ir.
+- Arreglar de alguna forma, tipo crear una libreria reutilizable, para getElementByClass. Lo de los if que hago yo.

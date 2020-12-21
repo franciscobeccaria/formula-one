@@ -250,11 +250,11 @@ document.getElementById('season-item').addEventListener('click', () => {
 document.getElementById('search-input-btn').addEventListener('click', () => {
   Router.navigate('/search');
 });
-/* document.addEventListener('keypress', function (e) {
-  if (e.key === 'Enter') {
-    search();
+document.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter' && searchModal.className === 'search-modal-container center') {
+    Router.navigate('/search');
   }
-}); */
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('home-page') !== null) {
