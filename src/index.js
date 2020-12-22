@@ -28,9 +28,14 @@ class MainHtml {
   static getHome() {
     return `
         <section class="last-race-section">
-            <div class="div-title center"><h2 id="last-race-title"></h2></div>
+            <div class="div-title center" style="flex-direction: column;">
+                <h2 id="last-race-title"></h2>
+                <h4>Last race</h4>
+            </div>
             <div class="div-container">
-                <div id="last-race-info" class="div-info"></div>
+                <div id="last-race-info" class="div-info">
+                    <div class="loader"></div>
+                </div>
                 <div class="div-table">
                     <table id="last-race-rankings"></table>
                 </div>
@@ -53,7 +58,9 @@ class MainHtml {
   static getDriver() {
     return `
         <section class="driver-page">
-            <div id="driver-card-container" class="driver-card-container"></div>
+            <div id="driver-card-container" class="driver-card-container">
+                <div class="loader"></div>
+            </div>
             <div>
                 <table id="driver-page-table"></table>
             </div>
@@ -110,7 +117,9 @@ class MainHtml {
         <section class="last-race-section">
             <div class="div-title center"><h2 id="last-race-title"></h2></div>
             <div class="div-container">
-                <div id="last-race-info" class="div-info"></div>
+                <div id="last-race-info" class="div-info">
+                    <div class="loader"></div>
+                </div>
                 <div class="div-table">
                     <table id="last-race-rankings"></table>
                 </div>
@@ -312,6 +321,7 @@ Router.add(/circuits/, () => {
 
 Router.add(/circuit/, () => {
   const circuitId = window.location.pathname.slice(9);
+  container.innerHTML = '';
   UI.drawCircuit('', '', circuitId);
   getById();
 }).listen();

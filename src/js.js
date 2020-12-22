@@ -488,15 +488,17 @@ class UI {
                         <th>W</th>
                     </tr>
       `;
-    await API.getDriversRankings(seasonValue, teamValue, driverValue).then(function (response) {
-      response.data.response.slice(0, tableLength).forEach((row) => {
-        const driversRow = new DriversRow(row.position, row.driver, row.team, row.points, row.wins, row.behind, row.season);
-        driversTableHtml = driversTableHtml.concat(driversRow.getDriversRowHtml());
-      });
-      document.getElementById(idTableContainer).innerHTML = driversTableHtml;
-    });
+    await API.getDriversRankings(seasonValue, teamValue, driverValue)
+      .then(function (response) {
+        response.data.response.slice(0, tableLength).forEach((row) => {
+          const driversRow = new DriversRow(row.position, row.driver, row.team, row.points, row.wins, row.behind, row.season);
+          driversTableHtml = driversTableHtml.concat(driversRow.getDriversRowHtml());
+        });
+        document.getElementById(idTableContainer).innerHTML = driversTableHtml;
+      })
+      .catch((error) => console.log(error));
     if (location.pathname === '/') {
-      sessionStorage.setItem('home-page', container.innerHTML);
+      /* sessionStorage.setItem('home-page', container.innerHTML); */
     }
   }
 
@@ -510,16 +512,18 @@ class UI {
                         <th>Diff.</th>
                     </tr>
       `;
-    await API.getTeamsRankings(seasonValue, teamValue).then(function (response) {
-      response.data.response.slice(0, tableLength).forEach((row) => {
-        const teamsRow = new TeamsRow(row.position, row.team, row.points, row.season);
-        teamsTableHtml = teamsTableHtml.concat(teamsRow.getTeamsRowHtml());
-        previousPoints = teamsRow.points;
-      });
-      document.getElementById(idTableContainer).innerHTML = teamsTableHtml;
-    });
+    await API.getTeamsRankings(seasonValue, teamValue)
+      .then(function (response) {
+        response.data.response.slice(0, tableLength).forEach((row) => {
+          const teamsRow = new TeamsRow(row.position, row.team, row.points, row.season);
+          teamsTableHtml = teamsTableHtml.concat(teamsRow.getTeamsRowHtml());
+          previousPoints = teamsRow.points;
+        });
+        document.getElementById(idTableContainer).innerHTML = teamsTableHtml;
+      })
+      .catch((error) => console.log(error));
     if (location.pathname === '/') {
-      sessionStorage.setItem('home-page', container.innerHTML);
+      /* sessionStorage.setItem('home-page', container.innerHTML); */
     }
   }
 
@@ -539,25 +543,27 @@ class UI {
         <th>G</th>
     </tr>
 `;
-    await API.getRaceRankings(raceValue, teamValue, driverValue).then(function (response) {
-      response.data.response.slice(0, tableLength).forEach((row) => {
-        const racesRow = new RacesRow(
-          row.race.id,
-          row.driver,
-          row.team,
-          row.position,
-          row.time,
-          row.laps,
-          row.grid,
-          row.pits,
-          row.gap
-        );
-        raceTableHtml = raceTableHtml.concat(racesRow.getRacesRowHtml());
-      });
-    });
+    await API.getRaceRankings(raceValue, teamValue, driverValue)
+      .then(function (response) {
+        response.data.response.slice(0, tableLength).forEach((row) => {
+          const racesRow = new RacesRow(
+            row.race.id,
+            row.driver,
+            row.team,
+            row.position,
+            row.time,
+            row.laps,
+            row.grid,
+            row.pits,
+            row.gap
+          );
+          raceTableHtml = raceTableHtml.concat(racesRow.getRacesRowHtml());
+        });
+      })
+      .catch((error) => console.log(error));
     document.getElementById('last-race-rankings').innerHTML = raceTableHtml;
     if (location.pathname === '/') {
-      sessionStorage.setItem('home-page', container.innerHTML);
+      /* sessionStorage.setItem('home-page', container.innerHTML); */
     }
   }
 
@@ -572,8 +578,8 @@ class UI {
     nextValue,
     lastValue
   ) {
-    await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue).then(
-      function (response) {
+    await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue)
+      .then(function (response) {
         const raceData = response.data.response[0];
         const race = new Race(
           '',
@@ -592,10 +598,10 @@ class UI {
         getById();
         idLastRace = race.id;
         UI.drawRaceRanking(tableLength, idLastRace);
-      }
-    );
+      })
+      .catch((error) => console.log(error));
     if (location.pathname === '/') {
-      sessionStorage.setItem('home-page', container.innerHTML);
+      /* sessionStorage.setItem('home-page', container.innerHTML); */
     } else {
       document.getElementById('see-race-information-btn').classList.add('no-show');
     }
@@ -610,44 +616,69 @@ class UI {
                         <th>Result</th>
                     </tr>
       `;
-    await API.getDrivers(nameValue, searchValue, idValue).then(function (response) {
-      const driverData = response.data.response[0];
-      const driver = new Driver(
-        driverData.id,
-        driverData.name,
-        driverData.image,
-        driverData.nationality,
-        driverData.birthdate,
-        driverData.teams
-      );
-      document.getElementById('driver-card-container').innerHTML = driver.getDriverCardContainerHtml();
-      driver.teams.forEach((row) => {
-        driverTeamsTable = driverTeamsTable.concat(driver.getDriverPageTableHtml(row.season, row.team.name, row.team.image));
-      });
-      document.getElementById('driver-page-table').innerHTML = driverTeamsTable;
-    });
+    await API.getDrivers(nameValue, searchValue, idValue)
+      .then(function (response) {
+        const driverData = response.data.response[0];
+        const driver = new Driver(
+          driverData.id,
+          driverData.name,
+          driverData.image,
+          driverData.nationality,
+          driverData.birthdate,
+          driverData.teams
+        );
+        document.getElementById('driver-card-container').innerHTML = driver.getDriverCardContainerHtml();
+        driver.teams.forEach((row) => {
+          driverTeamsTable = driverTeamsTable.concat(driver.getDriverPageTableHtml(row.season, row.team.name, row.team.image));
+        });
+        document.getElementById('driver-page-table').innerHTML = driverTeamsTable;
+      })
+      .catch((error) => console.log(error));
   }
 
   static async drawTeam(nameValue, searchValue, idValue) {
-    await API.getTeams(nameValue, searchValue, idValue).then(function (response) {
-      const teamData = response.data.response[0];
-      const team = new Team(
-        teamData.id,
-        teamData.name,
-        teamData.logo,
-        teamData.president,
-        teamData.director,
-        teamData.technicalManager,
-        teamData.engine,
-        teamData.tyres
-      );
-      document.getElementById('section-team-page').innerHTML = team.getTeamPageHtml();
-    });
+    await API.getTeams(nameValue, searchValue, idValue)
+      .then(function (response) {
+        const teamData = response.data.response[0];
+        const team = new Team(
+          teamData.id,
+          teamData.name,
+          teamData.logo,
+          teamData.president,
+          teamData.director,
+          teamData.technicalManager,
+          teamData.engine,
+          teamData.tyres
+        );
+        document.getElementById('section-team-page').innerHTML = team.getTeamPageHtml();
+      })
+      .catch((error) => console.log(error));
   }
 
   static async drawCircuits(searchValue, competitionValue, idValue) {
-    API.getCircuits(searchValue, competitionValue, idValue).then(function (response) {
-      response.data.response.forEach((circuitData) => {
+    API.getCircuits(searchValue, competitionValue, idValue)
+      .then(function (response) {
+        response.data.response.forEach((circuitData) => {
+          const circuit = new Circuit(
+            circuitData.id,
+            circuitData.name,
+            circuitData.image,
+            circuitData.competition,
+            circuitData.length,
+            circuitData.capacity,
+            circuitData.opened
+          );
+          const circuitCard = circuit.getCircuitCard();
+          document.getElementById('circuit-card-container-circuits-page').insertAdjacentHTML('beforeend', circuitCard);
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+
+  static async drawCircuit(searchValue, competitionValue, idValue) {
+    await API.getCircuits(searchValue, competitionValue, idValue)
+      .then(function (response) {
+        const circuitData = response.data.response[0];
         const circuit = new Circuit(
           circuitData.id,
           circuitData.name,
@@ -657,41 +688,26 @@ class UI {
           circuitData.capacity,
           circuitData.opened
         );
-        const circuitCard = circuit.getCircuitCard();
-        document.getElementById('circuit-card-container-circuits-page').insertAdjacentHTML('beforeend', circuitCard);
-      });
-    });
-  }
-
-  static async drawCircuit(searchValue, competitionValue, idValue) {
-    await API.getCircuits(searchValue, competitionValue, idValue).then(function (response) {
-      const circuitData = response.data.response[0];
-      const circuit = new Circuit(
-        circuitData.id,
-        circuitData.name,
-        circuitData.image,
-        circuitData.competition,
-        circuitData.length,
-        circuitData.capacity,
-        circuitData.opened
-      );
-      container.innerHTML = circuit.getCircuitPageHtml();
-    });
+        container.innerHTML = circuit.getCircuitPageHtml();
+      })
+      .catch((error) => console.log(error));
   }
 
   static async drawSeasons() {
-    await API.getSeasons().then(function (response) {
-      response.data.response.forEach((seasonYear) => {
-        const season = new Season(seasonYear);
-        const seasonCard = season.getSeasonCard();
-        document.getElementById('circuit-card-container-circuits-page').insertAdjacentHTML('beforeend', seasonCard);
-      });
-    });
+    await API.getSeasons()
+      .then(function (response) {
+        response.data.response.forEach((seasonYear) => {
+          const season = new Season(seasonYear);
+          const seasonCard = season.getSeasonCard();
+          document.getElementById('circuit-card-container-circuits-page').insertAdjacentHTML('beforeend', seasonCard);
+        });
+      })
+      .catch((error) => console.log(error));
   }
 
   static async drawSeason(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue) {
-    await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue).then(
-      function (response) {
+    await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue)
+      .then(function (response) {
         response.data.response.forEach((raceData) => {
           const race = new Race(
             '',
@@ -708,8 +724,8 @@ class UI {
           const raceCard = race.getRaceCard();
           document.getElementById('race-card-container-season-page').insertAdjacentHTML('beforeend', raceCard);
         });
-      }
-    );
+      })
+      .catch((error) => console.log(error));
   }
 
   static inputSearch() {
@@ -726,66 +742,72 @@ class UI {
   }
 
   static drawSearch(inputData) {
-    API.getDrivers('', inputData).then(function (response) {
-      if (response.data.results === 0) {
-        document.getElementById('search-drivers').innerHTML = 'NO RESULTS';
-        document.getElementById('search-drivers').style.color = 'white';
-      } else {
-        response.data.response.forEach((driverData) => {
-          const driver = new Driver(
-            driverData.id,
-            driverData.name,
-            driverData.image,
-            driverData.nationality,
-            driverData.birthdate,
-            driverData.teams
-          );
-          const driverCard = driver.getDriverCard();
-          document.getElementById('search-drivers').insertAdjacentHTML('beforeend', driverCard);
-        });
-      }
-    });
-    API.getCircuits(inputData).then(function (response) {
-      if (response.data.results === 0) {
-        document.getElementById('search-circuits').innerHTML = 'NO RESULTS';
-        document.getElementById('search-circuits').style.color = 'white';
-      } else {
-        response.data.response.forEach((circuitData) => {
-          const circuit = new Circuit(
-            circuitData.id,
-            circuitData.name,
-            circuitData.image,
-            circuitData.competition,
-            circuitData.length,
-            circuitData.capacity,
-            circuitData.opened
-          );
-          const circuitCard = circuit.getCircuitCard();
-          document.getElementById('search-circuits').insertAdjacentHTML('beforeend', circuitCard);
-        });
-      }
-    });
-    API.getTeams('', inputData).then(function (response) {
-      if (response.data.results === 0) {
-        document.getElementById('search-teams').innerHTML = 'NO RESULTS';
-        document.getElementById('search-teams').style.color = 'white';
-      } else {
-        response.data.response.forEach((teamData) => {
-          const team = new Team(
-            teamData.id,
-            teamData.name,
-            teamData.logo,
-            teamData.president,
-            teamData.director,
-            teamData.technicalManager,
-            teamData.engine,
-            teamData.tyres
-          );
-          const teamCard = team.getTeamCard();
-          document.getElementById('search-teams').insertAdjacentHTML('beforeend', teamCard);
-        });
-      }
-    });
+    API.getDrivers('', inputData)
+      .then(function (response) {
+        if (response.data.results === 0) {
+          document.getElementById('search-drivers').innerHTML = 'NO RESULTS';
+          document.getElementById('search-drivers').style.color = 'white';
+        } else {
+          response.data.response.forEach((driverData) => {
+            const driver = new Driver(
+              driverData.id,
+              driverData.name,
+              driverData.image,
+              driverData.nationality,
+              driverData.birthdate,
+              driverData.teams
+            );
+            const driverCard = driver.getDriverCard();
+            document.getElementById('search-drivers').insertAdjacentHTML('beforeend', driverCard);
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+    API.getCircuits(inputData)
+      .then(function (response) {
+        if (response.data.results === 0) {
+          document.getElementById('search-circuits').innerHTML = 'NO RESULTS';
+          document.getElementById('search-circuits').style.color = 'white';
+        } else {
+          response.data.response.forEach((circuitData) => {
+            const circuit = new Circuit(
+              circuitData.id,
+              circuitData.name,
+              circuitData.image,
+              circuitData.competition,
+              circuitData.length,
+              circuitData.capacity,
+              circuitData.opened
+            );
+            const circuitCard = circuit.getCircuitCard();
+            document.getElementById('search-circuits').insertAdjacentHTML('beforeend', circuitCard);
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+    API.getTeams('', inputData)
+      .then(function (response) {
+        if (response.data.results === 0) {
+          document.getElementById('search-teams').innerHTML = 'NO RESULTS';
+          document.getElementById('search-teams').style.color = 'white';
+        } else {
+          response.data.response.forEach((teamData) => {
+            const team = new Team(
+              teamData.id,
+              teamData.name,
+              teamData.logo,
+              teamData.president,
+              teamData.director,
+              teamData.technicalManager,
+              teamData.engine,
+              teamData.tyres
+            );
+            const teamCard = team.getTeamCard();
+            document.getElementById('search-teams').insertAdjacentHTML('beforeend', teamCard);
+          });
+        }
+      })
+      .catch((error) => console.log(error));
   }
 }
 

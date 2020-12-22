@@ -9,6 +9,11 @@
   --color-black: #000000;
 }
 
+// Loader border-size
+:root {
+  --border-size: 5px;
+}
+
 // Colors in SASS Variables:
 $color-bg: #073b4c;
 $color-first: #118ab2;

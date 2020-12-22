@@ -9,6 +9,9 @@
   --color-black: #000000; }
 
 :root {
+  --border-size: 5px; }
+
+:root {
   --z-doubleback: -20;
   --z-back: -10;
   --z-middleback: -5;
@@ -201,6 +204,32 @@ table {
   .driver-link:hover,
   .team-link:hover {
     color: #ef476f; }
+
+.loader {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border: 1px solid gray;
+  border-radius: 50%; }
+  .loader:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -4px;
+    left: -2px;
+    width: calc(100% - var(--border-size));
+    height: calc(100% - var(--border-size));
+    border: var(--border-size) solid black;
+    border-radius: 50%;
+    clip-path: polygon(40% 0, 100% 0, 100% 50%, 40% 50%);
+    z-index: 1;
+    animation: loader-spin forwards 1.5s infinite cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+
+@keyframes loader-spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
 
 .circuit-card {
   display: flex;

@@ -24,6 +24,7 @@ Páginas del proyecto:
 
 PROYECTO NO TERMINADO HASTA:
 
+- Revisar page por page. Problemas de la API se queda en problemas de la API.
 - Muchas validaciones. Ejemplos Weather, ejemplo respuestas con null, fotos mal hechas.
 - Hay que resolver muchos temas de Estilos. Revisar página por página. (Voy anotando algunos: Circuit Card, Circuit Image in Circuit Page)
 - Guardar algun tipo de key o algo así en sessionStorage para automatizar que si hubo una nueva carrera recargue la página y tome lo guardado en sessionStorage.
