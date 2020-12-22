@@ -359,3 +359,5 @@ Router.add(() => {
   }
   getById();
 }).listen();
+
+export default getById;

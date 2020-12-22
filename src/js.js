@@ -1,4 +1,5 @@
 import Router from './router.js';
+import getById from './index.js';
 
 const apiHeaders = {
   headers: {
@@ -19,19 +20,27 @@ class Driver {
     this.teams = teams;
   }
   getDriverCardContainerHtml() {
+    validateDriverImage(this.id, this);
+    const driverBirthdate = this.birthdate.replace(/-/g, '.');
+    const driverBirthdateInTimestamp = new Date(driverBirthdate).getTime();
+    const driverAgeInTimestamp = Date.now() - driverBirthdateInTimestamp;
+    this.driverAge = Math.floor(driverAgeInTimestamp / 31557600000);
     return `
                 <div class="driver-card">
                     <div class="driver-card-superior">
                         <div class="driver-card-image"><img src="${this.image}" alt=""></div>
                         <div class="driver-card-info">
-                            <div class="driver-card-info-image"><img src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div>
+                            <div class="driver-card-info-image center">${this.nationality}</div>
                             <div class="driver-card-info-born">Born in ${this.birthdate}</div>
-                            <div class="driver-card-info-age">25 years old</div>
+                            <div class="driver-card-info-age">${this.driverAge} years old</div>
                         </div>
                     </div>
                     <div class="driver-card-inferior"><p class="driver-link">${this.name}</p></div>
                 </div>
-                <div class="driver-card-footer center">Wikipedia <span><i class="fas fa-external-link-alt"></i></span></div>
+                <a href="https://en.wikipedia.org/w/index.php?search=${this.name.replace(
+                  / /g,
+                  '+'
+                )}&title=Special%3ASearch&go=Go&ns0=1" target=”_blank” class="driver-card-footer center">Wikipedia <span><i class="fas fa-external-link-alt"></i></span></a>
       `;
   }
   getDriverPageTableHtml(season, team, teamImage) {
@@ -49,7 +58,7 @@ class Driver {
     return `
             <div class="driver-card-search">
                 <div class="center">${this.name}</div>
-                <div class="driver-card-info-image"><img src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div>
+                <div class="driver-card-info-image">${this.nationality}</div>
             </div>
       `;
   }
@@ -106,13 +115,21 @@ class Race {
     this.weather = weather;
   }
   getRaceInformationHtml() {
+    if (this.weather === null) {
+      this.weather = 'No info';
+    }
+    if (this.weather === 'Sunny') {
+      this.weatherIcon = '<i class="fas fa-sun"></i>';
+    } else {
+      this.weatherIcon = '';
+    }
     return `
-      <p><strong>${this.date.slice(0, 10)}</strong></p>
+                    <p><strong>${this.date.slice(0, 10)}</strong></p>
                     <p>${this.circuit.name} in <br>
                         <strong>${this.competition.location.city}, ${this.competition.location.country}</strong>
                     </p>
-                    <p><strong>Race</strong> #1<br><strong>Season</strong> ${this.season}</p>
-                    <p><strong>Weather:</strong> ${this.weather}   <span><i class="fas fa-sun"></i></span></p>
+                    <p><strong>Season</strong> ${this.season}</p>
+                    <p><strong>Weather:</strong> ${this.weather}   <span>${this.weatherIcon}</span></p>
                     <p><strong>Status:</strong> ${this.status}</p>
                     <button id="see-race-information-btn">See Complete GP Information</button>
                     <div class="no-show">${this.id}</div>
@@ -194,12 +211,13 @@ class RacesRow {
     this.gap = gap;
   }
   getRacesRowHtml() {
+    validateDriverImage(this.driver.id, this);
     return `
       <tr>
           <td>${this.position}°</td>
           <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="${this.driver.image}" alt="Driver Image"></div></td>
           <td class="driver-link">${this.driver.name}</td>
-          <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
+          <td class="no-show"><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
           <td class="team-link">${this.team.name}</td>
           <td class="team-link"><img src="" alt=""></td>
           <td>${this.time}</td>
@@ -223,12 +241,19 @@ class DriversRow {
     this.season = season;
   }
   getDriversRowHtml() {
+    validateDriverImage(this.driver.id, this);
+    if (this.behind === null) {
+      this.behind = '-';
+    }
+    if (this.wins === null) {
+      this.wins = '-';
+    }
     return `
                     <tr>
                         <td>${this.position}°</td>
                         <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="${this.driver.image}" alt="Driver Image"></div></td>
                         <td class="driver-link">${this.driver.name}</td>
-                        <td><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
+                        <td class="no-show"><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
                         <td class="team-link">${this.team.name}</td>
                         <td class="team-link"><img src="" alt=""></td>
                         <td>${this.points}</td>
@@ -239,6 +264,8 @@ class DriversRow {
   }
 }
 
+let previousPoints;
+
 class TeamsRow {
   constructor(position, team, points, season) {
     this.position = position;
@@ -247,13 +274,18 @@ class TeamsRow {
     this.season = season;
   }
   getTeamsRowHtml() {
+    if (this.position == '1') {
+      previousPoints = '-';
+    } else {
+      previousPoints = previousPoints - this.points;
+    }
     return `
                     <tr>
                         <td>${this.position}°</td>
                         <td class="team-link">${this.team.name}</td>
                         <td><img src="" alt=""></td>
                         <td>${this.points}</td>
-                        <td>1'20.486</td>
+                        <td>${previousPoints}</td>
                     </tr>
       `;
   }
@@ -267,6 +299,40 @@ function validateParam(value, type) {
     param = '';
   }
   return param;
+}
+
+function getDriverImage(id, driverId, driverContext) {
+  if (driverId == id) {
+    driverImages.forEach((driver) => {
+      if (driver.id === id) {
+        if (driverContext.hasOwnProperty('driver')) {
+          return (driverContext.driver.image = driver.image);
+        } else {
+          return (driverContext.image = driver.image);
+        }
+      }
+    });
+  }
+}
+
+const driverImages = [
+  {
+    id: '10',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/2019_Formula_One_tests_Barcelona%2C_P%C3%A9rez_%2847200017422%29.jpg/1200px-2019_Formula_One_tests_Barcelona%2C_P%C3%A9rez_%2847200017422%29.jpg',
+  },
+  {
+    id: '24',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/2019_Formula_One_tests_Barcelona%2C_Sainz_%2847251966861%29.jpg/1200px-2019_Formula_One_tests_Barcelona%2C_Sainz_%2847251966861%29.jpg',
+  },
+  { id: '61', image: 'https://www.f1-fansite.com/wp-content/uploads/2020/01/Nicholas-Latifi-info-wiki-scaled.jpg' },
+];
+
+function validateDriverImage(driverId, driverContext) {
+  getDriverImage('10', driverId, driverContext);
+  getDriverImage('24', driverId, driverContext);
+  getDriverImage('61', driverId, driverContext);
 }
 
 class API {
@@ -414,12 +480,12 @@ class UI {
                         <th>P.</th>
                         <th></th>
                         <th>Driver</th>
-                        <th></th>
+                        <th class="no-show"></th>
                         <th>Team</th>
                         <th></th>
                         <th>Time</th>
                         <th>Diff.</th>
-                        <th>L</th>
+                        <th>W</th>
                     </tr>
       `;
     await API.getDriversRankings(seasonValue, teamValue, driverValue).then(function (response) {
@@ -448,6 +514,7 @@ class UI {
       response.data.response.slice(0, tableLength).forEach((row) => {
         const teamsRow = new TeamsRow(row.position, row.team, row.points, row.season);
         teamsTableHtml = teamsTableHtml.concat(teamsRow.getTeamsRowHtml());
+        previousPoints = teamsRow.points;
       });
       document.getElementById(idTableContainer).innerHTML = teamsTableHtml;
     });
@@ -462,7 +529,7 @@ class UI {
         <th>P.</th>
         <th></th>
         <th>Driver</th>
-        <th></th>
+        <th class="no-show"></th>
         <th>Team</th>
         <th></th>
         <th>Time</th>
@@ -508,7 +575,6 @@ class UI {
     await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue).then(
       function (response) {
         const raceData = response.data.response[0];
-        console.log(raceData);
         const race = new Race(
           '',
           raceData.season,
@@ -523,6 +589,7 @@ class UI {
         );
         document.getElementById('last-race-info').innerHTML = race.getRaceInformationHtml();
         document.getElementById('last-race-title').innerText = race.competition.name;
+        getById();
         idLastRace = race.id;
         UI.drawRaceRanking(tableLength, idLastRace);
       }
@@ -563,7 +630,6 @@ class UI {
 
   static async drawTeam(nameValue, searchValue, idValue) {
     await API.getTeams(nameValue, searchValue, idValue).then(function (response) {
-      console.log(response.data.response[0]);
       const teamData = response.data.response[0];
       const team = new Team(
         teamData.id,
@@ -599,7 +665,6 @@ class UI {
 
   static async drawCircuit(searchValue, competitionValue, idValue) {
     await API.getCircuits(searchValue, competitionValue, idValue).then(function (response) {
-      console.log(response.data.response[0]);
       const circuitData = response.data.response[0];
       const circuit = new Circuit(
         circuitData.id,
@@ -627,7 +692,6 @@ class UI {
   static async drawSeason(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue) {
     await API.getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue).then(
       function (response) {
-        console.log(response.data.response);
         response.data.response.forEach((raceData) => {
           const race = new Race(
             '',
