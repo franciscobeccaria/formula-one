@@ -327,12 +327,16 @@ const driverImages = [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/2019_Formula_One_tests_Barcelona%2C_Sainz_%2847251966861%29.jpg/1200px-2019_Formula_One_tests_Barcelona%2C_Sainz_%2847251966861%29.jpg',
   },
   { id: '61', image: 'https://www.f1-fansite.com/wp-content/uploads/2020/01/Nicholas-Latifi-info-wiki-scaled.jpg' },
+  { id: '35', image: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Brendon_Hartley_USA_2017.jpg' },
+  { id: '18', image: 'https://upload.wikimedia.org/wikipedia/commons/f/f3/F12019_Schloss_Gabelhofen_%2821%29.jpg' },
 ];
 
 function validateDriverImage(driverId, driverContext) {
   getDriverImage('10', driverId, driverContext);
   getDriverImage('24', driverId, driverContext);
   getDriverImage('61', driverId, driverContext);
+  getDriverImage('35', driverId, driverContext);
+  getDriverImage('18', driverId, driverContext);
 }
 
 class API {
@@ -483,7 +487,7 @@ class UI {
                         <th class="no-show"></th>
                         <th>Team</th>
                         <th></th>
-                        <th>Time</th>
+                        <th>Points</th>
                         <th>Diff.</th>
                         <th>W</th>
                     </tr>

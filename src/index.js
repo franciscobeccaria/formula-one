@@ -18,6 +18,7 @@ closeMenu.addEventListener('click', () => {
 
 toggleSearch.addEventListener('click', () => {
   searchModal.classList.remove('no-show');
+  document.getElementById('search-input').focus();
 });
 
 closeSearchModal.addEventListener('click', () => {

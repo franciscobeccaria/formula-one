@@ -27,6 +27,7 @@ th {
 
 .driver-image-div {
   height: 70px;
+  max-width: 50px;
   @include mq(400) {
     height: 55px;
   }
@@ -35,6 +36,7 @@ th {
 .driver-image {
   object-fit: cover;
   height: 70px;
+  max-width: 50px;
   @include mq(400) {
     height: 55px;
   }

@@ -24,6 +24,16 @@ Páginas del proyecto:
 
 PROYECTO NO TERMINADO HASTA:
 
+- RESULT EN DRIVER PAGE.
+
+- RESOLVER PROBLEMAS DE ESTILOS. creo que ya está.
+- VARIABLES GLOBALES CAMBIAR DECLARADO.
+- REVISAR PÁGINA POR PÁGINA PROBLEMAS DE API Y ESTILOS.
+- VER SI PUEDO CAMBIAR LOS PARAMETROS DE LA API.
+- NO QUEMAR EL AÑO 2020 EN TODOS LADOS. O AL MENOS PONER VARIABLE GLOBAL.
+- REUTILIZAR getElementByClass
+- TENGO QUE CAMBIAR TODAS LAS PETICIONES QUE SEAN POR NAME Y NO POR ID. YA QUE HAY MUCHOS CARACTERES RAROS QUE OCASIONAN PROBLEMAS.
+
 - Revisar page por page. Problemas de la API se queda en problemas de la API.
 - Muchas validaciones. Ejemplos Weather, ejemplo respuestas con null, fotos mal hechas.
 - Hay que resolver muchos temas de Estilos. Revisar página por página. (Voy anotando algunos: Circuit Card, Circuit Image in Circuit Page)

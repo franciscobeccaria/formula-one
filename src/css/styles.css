@@ -78,7 +78,7 @@
 
 .div-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap; }
 
@@ -170,14 +170,16 @@ th {
       font-size: 10px; } }
 
 .driver-image-div {
-  height: 70px; }
+  height: 70px;
+  max-width: 50px; }
   @media screen and (max-width: 400px) {
     .driver-image-div {
       height: 55px; } }
 
 .driver-image {
   object-fit: cover;
-  height: 70px; }
+  height: 70px;
+  max-width: 50px; }
   @media screen and (max-width: 400px) {
     .driver-image {
       height: 55px; } }
@@ -238,17 +240,18 @@ table {
   flex-direction: column;
   background-color: #073b4c;
   border: 1px solid #ffffff;
-  height: 125px;
+  min-height: 125px;
   width: 200px;
   margin: 20px;
   border-radius: 15px;
   text-align: center;
-  cursor: pointer; }
+  cursor: pointer;
+  padding: 5px; }
   .circuit-card:hover {
     background-color: #118ab2; }
   @media screen and (max-width: 640px) {
     .circuit-card {
-      height: 80px;
+      min-height: 80px;
       width: 128px;
       margin: 10px;
       font-size: 11px; } }
@@ -442,17 +445,18 @@ table {
   flex-direction: column;
   background-color: #073b4c;
   border: 1px solid #ffffff;
-  height: 125px;
+  min-height: 125px;
   width: 200px;
   margin: 20px;
   border-radius: 15px;
   text-align: center;
-  cursor: pointer; }
+  cursor: pointer;
+  padding: 5px; }
   .race-card:hover {
     background-color: #118ab2; }
   @media screen and (max-width: 640px) {
     .race-card {
-      height: 80px;
+      min-height: 80px;
       width: 128px;
       margin: 10px;
       font-size: 11px; } }
@@ -484,7 +488,8 @@ table {
   border-bottom: 0.5px solid #ffffff;
   font-size: 50px;
   color: #ffffff;
-  margin-right: 50px; }
+  margin-right: 50px;
+  padding: 5px; }
   @media screen and (max-width: 1024px) {
     .search-input {
       font-size: 35px; } }

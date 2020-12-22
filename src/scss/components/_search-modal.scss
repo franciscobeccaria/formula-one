@@ -15,6 +15,7 @@
   font-size: 50px;
   color: $color-white;
   margin-right: 50px;
+  padding: 5px;
   @include mq(1024) {
     font-size: 35px;
   }
