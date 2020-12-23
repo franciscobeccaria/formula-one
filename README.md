@@ -15,3 +15,5 @@ En globalVariables.js tenemos las variables globales y funciones globales.
 Utilizamos 1 librería externa: Axios.
 
 Cabe aclarar que la API a veces falla porque estamos usando una versión gratuita. Y también que la API tiene información hasta la temporada 2011 de la Formula 1.
+
+Documentación de API-FORMULA-1: https://api-sports.io/documentation/formula-1/v1
