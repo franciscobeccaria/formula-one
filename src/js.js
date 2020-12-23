@@ -1,5 +1,6 @@
 import getById from './index.js';
 import { CONTAINER, API_HEADERS, validateDriverImage, validateParam } from './globalVariables.js';
+import axios from 'axios';
 
 let PREVIOUS_POINTS;
 let ID_LAST_RACE;
@@ -54,7 +55,7 @@ class Driver {
                         <td>${season}</td>
                         <td class="team-link">${team}</td>
                         <td class="no-show"><div><img src="${teamImage}" alt="Team Image"></div></td>
-                        <td id="result-${season}">-</td>
+                        <td id="result-${season}"></td>
                     </tr>
       `;
   }

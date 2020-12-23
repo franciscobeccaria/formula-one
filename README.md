@@ -2,29 +2,15 @@
 
 Proyecto basado en la Formula 1. Nos traeremos la información desde API-FORMULA-1.
 
-La idea es que sea una SPA construida mediante JavaScript Vanilla. Tendremos un header y un footer que estarán en todas las páginas. El main será lo unico que cambie dependiendo la url.
+Es una SPA construida mediante JavaScript Vanilla. Tendremos un header y un footer que estarán en todas las páginas. El main será lo unico que cambie dependiendo la url.
 
-Páginas del proyecto:
+En index.js tenemos en su mayoría eventos aunque también tenemos el html (Objeto MainHtml) que será insertado en el main dependiendo de la url.
 
-- Home
-  - Next race / Current race section (Esta idea fue descartada por ahora, ya que actualmente estamos en diciembre 2020 y todavía no tenemos la información sobre la próxima carrera. O al menos la API no tiene esa información)
-  - Last Race section
-  - Standings preview section
-- Driver
-  - Driver card
-  - Driver history
-- Team
-- Standings
-  - Season info
-  - Driver standings
-  - Team Standings
-- Season
-- Circuit
-- Circuits
+En js.js tenemos los objetos, los "reales" son 5 (Driver, Team, Race, Circuit y Season), tenemos 3 que son objetos Row (Races, Drivers y Teams) que dibujan cada fila dependiendo las 3 tipos de tablas que tenemos y también estan los objetos API y UI. API se ocupa de hacer las peticiones a la API y UI se encarga del UI (dibujar el interfaz dependiendo de la respuesta de la API y también maneja el evento Search, que posteriormente dibuja en la interfaz los resultados dependiendo lo que devuelva la API).
 
-PROYECTO NO TERMINADO HASTA:
+En globalVariables.js tenemos las variables globales y funciones globales.
 
-- Documentar un toque todo.
+Utilizamos 1 librería externa: Axios.
 
 NOTAS
 
