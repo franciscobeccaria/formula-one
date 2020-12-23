@@ -224,17 +224,14 @@ document.addEventListener('click', (e) => {
 // Handles Events from Classes
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('driver-link')) {
-    console.log(e.target.nextElementSibling.textContent);
     const driverId = e.target.nextElementSibling.textContent;
     Router.navigate(`/driver/${driverId}`);
   }
   if (e.target.classList.contains('driver-image')) {
-    console.log(e.target.parentElement.parentElement.nextElementSibling.nextElementSibling.textContent);
     const driverId = e.target.parentElement.parentElement.nextElementSibling.nextElementSibling.textContent;
     Router.navigate(`/driver/${driverId}`);
   }
   if (e.target.classList.contains('team-link')) {
-    console.log(e.target.textContent);
     const teamName = e.target.textContent;
     Router.navigate(`/team/${teamName.toLowerCase().replace(/ /g, '_')}`);
   }
