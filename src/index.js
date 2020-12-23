@@ -1,28 +1,31 @@
 import Router from './router.js';
-import { container, UI } from './js.js';
+import { UI } from './js.js';
+import {
+  CURRENT_SEASON,
+  HEADER_NAV,
+  CLOSE_MENU,
+  TOGGLE_MENU,
+  TOGGLE_SEARCH,
+  SEARCH_MODAL,
+  CLOSE_SEARCH_MODAL,
+  CONTAINER,
+} from './globalVariables.js';
 
-const headerNav = document.getElementById('main-header-nav');
-const closeMenu = document.getElementById('close-menu');
-const toggleMenu = document.getElementById('toggle-menu');
-const toggleSearch = document.getElementById('toggle-search');
-const searchModal = document.getElementById('search-modal');
-const closeSearchModal = document.getElementById('close-search-modal');
-
-toggleMenu.addEventListener('click', () => {
-  headerNav.classList.add('show-modal-menu');
+TOGGLE_MENU.addEventListener('click', () => {
+  HEADER_NAV.classList.add('show-modal-menu');
 });
 
-closeMenu.addEventListener('click', () => {
-  headerNav.classList.remove('show-modal-menu');
+CLOSE_MENU.addEventListener('click', () => {
+  HEADER_NAV.classList.remove('show-modal-menu');
 });
 
-toggleSearch.addEventListener('click', () => {
-  searchModal.classList.remove('no-show');
+TOGGLE_SEARCH.addEventListener('click', () => {
+  SEARCH_MODAL.classList.remove('no-show');
   document.getElementById('search-input').focus();
 });
 
-closeSearchModal.addEventListener('click', () => {
-  searchModal.classList.add('no-show');
+CLOSE_SEARCH_MODAL.addEventListener('click', () => {
+  SEARCH_MODAL.classList.add('no-show');
 });
 
 class MainHtml {
@@ -150,7 +153,7 @@ class MainHtml {
 const getById = () => {
   if (document.getElementById('see-complete-standings-btn')) {
     document.getElementById('see-complete-standings-btn').addEventListener('click', () => {
-      const seasonYear = '2020';
+      const seasonYear = CURRENT_SEASON;
       Router.navigate(`/standings/${seasonYear}`);
     });
   }
@@ -167,9 +170,9 @@ const getById = () => {
     });
   }
   if (location.pathname === '/search') {
-    toggleSearch.classList.add('no-show');
+    TOGGLE_SEARCH.classList.add('no-show');
   } else {
-    toggleSearch.classList.remove('no-show');
+    TOGGLE_SEARCH.classList.remove('no-show');
   }
 };
 
@@ -197,16 +200,16 @@ document.addEventListener('click', (e) => {
     Router.navigate(`/season/${e.target.parentElement.lastElementChild.innerHTML}`);
   }
   if (e.target.classList.contains('driver-card-search')) {
-    const driverName = e.target.firstElementChild.textContent;
-    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+    const driverId = e.target.firstElementChild.textContent;
+    Router.navigate(`/driver/${driverId}`);
   }
   if (e.target.parentElement.classList.contains('driver-card-search')) {
-    const driverName = e.target.parentElement.firstElementChild.textContent;
-    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+    const driverId = e.target.parentElement.firstElementChild.textContent;
+    Router.navigate(`/driver/${driverId}`);
   }
   if (e.target.parentElement.parentElement.classList.contains('driver-card-search')) {
-    const driverName = e.target.parentElement.parentElement.firstElementChild.textContent;
-    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+    const driverId = e.target.parentElement.parentElement.firstElementChild.textContent;
+    Router.navigate(`/driver/${driverId}`);
   }
   if (e.target.classList.contains('team-card')) {
     const teamName = e.target.firstElementChild.textContent;
@@ -221,14 +224,14 @@ document.addEventListener('click', (e) => {
 // Handles Events from Classes
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('driver-link')) {
-    console.log(e.target.textContent);
-    const driverName = e.target.textContent;
-    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+    console.log(e.target.nextElementSibling.textContent);
+    const driverId = e.target.nextElementSibling.textContent;
+    Router.navigate(`/driver/${driverId}`);
   }
   if (e.target.classList.contains('driver-image')) {
-    console.log(e.target.parentElement.parentElement.nextElementSibling.textContent);
-    const driverName = e.target.parentElement.parentElement.nextElementSibling.textContent;
-    Router.navigate(`/driver/${driverName.toLowerCase().replace(/ /g, '_')}`);
+    console.log(e.target.parentElement.parentElement.nextElementSibling.nextElementSibling.textContent);
+    const driverId = e.target.parentElement.parentElement.nextElementSibling.nextElementSibling.textContent;
+    Router.navigate(`/driver/${driverId}`);
   }
   if (e.target.classList.contains('team-link')) {
     console.log(e.target.textContent);
@@ -236,7 +239,7 @@ document.addEventListener('click', (e) => {
     Router.navigate(`/team/${teamName.toLowerCase().replace(/ /g, '_')}`);
   }
   if (e.target.classList.contains('item')) {
-    headerNav.classList.remove('show-modal-menu');
+    HEADER_NAV.classList.remove('show-modal-menu');
   }
 });
 
@@ -245,7 +248,7 @@ document.getElementById('header-logo').addEventListener('click', () => {
 });
 
 document.getElementById('standings-item').addEventListener('click', () => {
-  const seasonYear = '2020';
+  const seasonYear = CURRENT_SEASON;
   Router.navigate(`/standings/${seasonYear}`);
 });
 
@@ -261,21 +264,21 @@ document.getElementById('search-input-btn').addEventListener('click', () => {
   Router.navigate('/search');
 });
 document.addEventListener('keypress', function (e) {
-  if (e.key === 'Enter' && searchModal.className === 'search-modal-container center') {
+  if (e.key === 'Enter' && SEARCH_MODAL.className === 'search-modal-container center') {
     Router.navigate('/search');
   }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('home-page') !== null) {
-    container.innerHTML = sessionStorage.getItem('home-page');
+    CONTAINER.innerHTML = sessionStorage.getItem('home-page');
   } else {
-    container.innerHTML = `
+    CONTAINER.innerHTML = `
     ${MainHtml.getHome()}
     `;
-    UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
-    UI.drawDriversRanking('home-drivers-rankings', 7, '2020');
-    UI.drawTeamsRanking('home-teams-rankings', 7, '2020');
+    UI.drawRaceInformation(7, '', CURRENT_SEASON, '', '', '', '', '', '1');
+    UI.drawDriversRanking('home-drivers-rankings', 7, CURRENT_SEASON);
+    UI.drawTeamsRanking('home-teams-rankings', 7, CURRENT_SEASON);
   }
   getById();
 });
@@ -283,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
 Router.add(/search/, () => {
   UI.inputSearch();
   const param = new URLSearchParams(window.location.search).get('param').replace(/_/g, ' ');
-  container.innerHTML = `
+  CONTAINER.innerHTML = `
   ${MainHtml.getSearch(param)}
   `;
   UI.drawSearch(param);
@@ -291,7 +294,7 @@ Router.add(/search/, () => {
 }).listen();
 
 Router.add(/seasons/, () => {
-  container.innerHTML = `
+  CONTAINER.innerHTML = `
         ${MainHtml.getSeasons()}`;
   UI.drawSeasons();
   getById();
@@ -299,7 +302,7 @@ Router.add(/seasons/, () => {
 
 Router.add(/season/, () => {
   const seasonYear = window.location.pathname.slice(8);
-  container.innerHTML = `
+  CONTAINER.innerHTML = `
         ${MainHtml.getSeason()}`;
   UI.drawSeason('', seasonYear, '', 'race', '', '', '', '99');
   getById();
@@ -307,14 +310,14 @@ Router.add(/season/, () => {
 
 Router.add(/race/, () => {
   const raceId = window.location.pathname.slice(6);
-  container.innerHTML = `
+  CONTAINER.innerHTML = `
         ${MainHtml.getRace()}`;
   UI.drawRaceInformation(99, '', '', raceId);
   getById();
 }).listen();
 
 Router.add(/circuits/, () => {
-  container.innerHTML = `
+  CONTAINER.innerHTML = `
       ${MainHtml.getCircuits()}`;
   UI.drawCircuits();
   getById();
@@ -322,14 +325,14 @@ Router.add(/circuits/, () => {
 
 Router.add(/circuit/, () => {
   const circuitId = window.location.pathname.slice(9);
-  container.innerHTML = '';
+  CONTAINER.innerHTML = '';
   UI.drawCircuit('', '', circuitId);
   getById();
 }).listen();
 
 Router.add(/standings/, () => {
   const seasonYear = window.location.pathname.slice(11);
-  container.innerHTML = `
+  CONTAINER.innerHTML = `
     ${MainHtml.getStandings()}`;
   UI.drawDriversRanking('drivers-table-standings-page', 30, seasonYear);
   UI.drawTeamsRanking('teams-table-standings-page', 30, seasonYear);
@@ -338,11 +341,10 @@ Router.add(/standings/, () => {
 }).listen();
 
 Router.add(/driver/, () => {
-  console.log(window.location.pathname.slice(8).replace(/_/g, ' '));
-  const driverName = window.location.pathname.slice(8).replace(/_/g, ' ');
-  container.innerHTML = `
+  const driverId = window.location.pathname.slice(8);
+  CONTAINER.innerHTML = `
       ${MainHtml.getDriver()}`;
-  UI.drawDriver(driverName);
+  UI.drawDriver('', '', driverId);
   getById();
 }).listen();
 
@@ -351,7 +353,7 @@ Router.add(/team/, () => {
   if (teamName == 'mercedes-amg petronas') {
     teamName = 'mercedes';
   }
-  container.innerHTML = `
+  CONTAINER.innerHTML = `
         ${MainHtml.getTeam()}`;
   UI.drawTeam('', teamName);
   getById();
@@ -359,14 +361,14 @@ Router.add(/team/, () => {
 
 Router.add(() => {
   if (sessionStorage.getItem('home-page') !== null) {
-    container.innerHTML = sessionStorage.getItem('home-page');
+    CONTAINER.innerHTML = sessionStorage.getItem('home-page');
   } else {
-    container.innerHTML = `
+    CONTAINER.innerHTML = `
     ${MainHtml.getHome()}
     `;
-    UI.drawRaceInformation(7, '', '2020', '', '', '', '', '', '1');
-    UI.drawDriversRanking('home-drivers-rankings', 7, '2020');
-    UI.drawTeamsRanking('home-teams-rankings', 7, '2020');
+    UI.drawRaceInformation(7, '', CURRENT_SEASON, '', '', '', '', '', '1');
+    UI.drawDriversRanking('home-drivers-rankings', 7, CURRENT_SEASON);
+    UI.drawTeamsRanking('home-teams-rankings', 7, CURRENT_SEASON);
   }
   getById();
 }).listen();

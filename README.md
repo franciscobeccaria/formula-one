@@ -24,25 +24,7 @@ Páginas del proyecto:
 
 PROYECTO NO TERMINADO HASTA:
 
-- RESULT EN DRIVER PAGE.
-
-- RESOLVER PROBLEMAS DE ESTILOS. creo que ya está.
-- VARIABLES GLOBALES CAMBIAR DECLARADO.
-- REVISAR PÁGINA POR PÁGINA PROBLEMAS DE API Y ESTILOS.
-- VER SI PUEDO CAMBIAR LOS PARAMETROS DE LA API.
-- NO QUEMAR EL AÑO 2020 EN TODOS LADOS. O AL MENOS PONER VARIABLE GLOBAL.
-- REUTILIZAR getElementByClass
-- TENGO QUE CAMBIAR TODAS LAS PETICIONES QUE SEAN POR NAME Y NO POR ID. YA QUE HAY MUCHOS CARACTERES RAROS QUE OCASIONAN PROBLEMAS.
-
-- Revisar page por page. Problemas de la API se queda en problemas de la API.
-- Muchas validaciones. Ejemplos Weather, ejemplo respuestas con null, fotos mal hechas.
-- Hay que resolver muchos temas de Estilos. Revisar página por página. (Voy anotando algunos: Circuit Card, Circuit Image in Circuit Page)
-- Guardar algun tipo de key o algo así en sessionStorage para automatizar que si hubo una nueva carrera recargue la página y tome lo guardado en sessionStorage.
-- Ver si puedo cambiar los parametros de la url de la api. con new URLSearchParams. O con la api que encontre y me mande a wpp.
-- Esta quemado en el código el año 2020 en todos lados. Tengo que automatizarlo. Con la API está dificil. No se. Variable global creo que va a ser lo mejor. Ya que el 1 de enero de 2021 no creo que se actualice automaticamente la API.
-- Recordar catch error o cosas así en cada petición y todos los lugares que debe ir.
-- Arreglar de alguna forma, tipo crear una libreria reutilizable, para getElementByClass. Lo de los if que hago yo.
-- Tengo que cambiar todos los getAlgo por name, hay muchos apostrofes y etc que la cagan, tiene que ser si o si por id.
+- Documentar un toque todo.
 
 NOTAS
 
@@ -55,3 +37,21 @@ GISTS:
 - Tener en cuenta que por año hay 365.25 dias. Tenerlo en cuenta al hacer sumas o restas con timestamp.
 - 86400000 milisegundos en 1 día.
 - 31557600000 = milisegundisPorDia \* 365.25 = Milisegundos en 1 año
+- .closest. Muy bueno. getElementByClass en menos lineas para elementos con hijos.
+
+  if (evt.target.closest('.circuit-card')) {
+  Router.navigate(`/circuit/${evt.target.lastElementChild.innerHTML}`);
+  }
+
+  Opción reutilizable: Devuelve el elemento. Pero por ejemplo, si lo metemos dentro de un Router.navigate funciona mal, ya que se dispara Router.navigate. Habria que crear una función especial para Router.navigate. Otra opción es si se le aplica un lastElementChild o innerHTML como en el ejemplo, en la consola aparece null y no se dispara el Router.navigate, pero eso depende de cada función.
+
+  function getElementByClase(className, e) {
+  const found = e.target.closest('.' + className);
+  if (found) return found;
+  }
+
+  Router.navigate(`/circuit/${getElementByClase('circuit-card', evt).lastElementChild.innerHTML}`);
+
+  Lo malo es que suele dar un null en consola. Queda mal. Pero no hay ninguna problema para el usuario. Como deciamos anteriormente.
+
+  - https://filisantillan.com/bits/urlsearchparams/

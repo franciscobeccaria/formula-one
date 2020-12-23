@@ -1,14 +1,8 @@
-import Router from './router.js';
 import getById from './index.js';
+import { CONTAINER, API_HEADERS, validateDriverImage, validateParam } from './globalVariables.js';
 
-const apiHeaders = {
-  headers: {
-    'x-rapidapi-key': '8e24c1ddadmsh14d300e160f7af5p1e6e9cjsnf29317490fbd',
-    'x-rapidapi-host': 'api-formula-1.p.rapidapi.com',
-  },
-};
-
-const container = document.getElementById('spa-container');
+let PREVIOUS_POINTS;
+let ID_LAST_RACE;
 
 class Driver {
   constructor(id, name, image, nationality, birthdate, teams) {
@@ -43,6 +37,16 @@ class Driver {
                 )}&title=Special%3ASearch&go=Go&ns0=1" target=”_blank” class="driver-card-footer center">Wikipedia <span><i class="fas fa-external-link-alt"></i></span></a>
       `;
   }
+  static getDriverPageTableTitle() {
+    return `
+                    <tr>
+                        <th>Season</th>
+                        <th>Team</th>
+                        <th class="no-show"></th>
+                        <th>Result</th>
+                    </tr>
+      `;
+  }
   getDriverPageTableHtml(season, team, teamImage) {
     return `
                     
@@ -50,13 +54,14 @@ class Driver {
                         <td>${season}</td>
                         <td class="team-link">${team}</td>
                         <td class="no-show"><div><img src="${teamImage}" alt="Team Image"></div></td>
-                        <td>Champion</td>
+                        <td id="result-${season}">-</td>
                     </tr>
       `;
   }
   getDriverCard() {
     return `
             <div class="driver-card-search">
+                <div class="no-show">${this.id}</div>
                 <div class="center">${this.name}</div>
                 <div class="driver-card-info-image">${this.nationality}</div>
             </div>
@@ -217,6 +222,7 @@ class RacesRow {
           <td>${this.position}°</td>
           <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="${this.driver.image}" alt="Driver Image"></div></td>
           <td class="driver-link">${this.driver.name}</td>
+          <td class="no-show">${this.driver.id}</td>
           <td class="no-show"><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
           <td class="team-link">${this.team.name}</td>
           <td class="team-link"><img src="" alt=""></td>
@@ -227,6 +233,23 @@ class RacesRow {
           <td>${this.grid}°</td>
       </tr>
 `;
+  }
+  static getRacesRowTitleHtml() {
+    return `
+            <tr>
+                <th>P.</th>
+                <th></th>
+                <th>Driver</th>
+                <th class="no-show"></th>
+                <th>Team</th>
+                <th></th>
+                <th>Time</th>
+                <th class="no-show">Diff.</th>
+                <th>L</th>
+                <th>B</th>
+                <th>G</th>
+            </tr>
+      `;
   }
 }
 
@@ -253,6 +276,7 @@ class DriversRow {
                         <td>${this.position}°</td>
                         <td class="driver-link"><div class="driver-image-div"><img class="driver-image" src="${this.driver.image}" alt="Driver Image"></div></td>
                         <td class="driver-link">${this.driver.name}</td>
+                        <td class="no-show">${this.driver.id}</td>
                         <td class="no-show"><div class="nation-image-div"><img class="nation-image" src="/197373-countrys-flags/197373-countrys-flags/svg/united-kingdom.svg" alt=""></div></td>
                         <td class="team-link">${this.team.name}</td>
                         <td class="team-link"><img src="" alt=""></td>
@@ -262,9 +286,22 @@ class DriversRow {
                     </tr>
       `;
   }
+  static getDriversRowTitleHtml() {
+    return `
+                    <tr>
+                        <th>P.</th>
+                        <th></th>
+                        <th>Driver</th>
+                        <th class="no-show"></th>
+                        <th>Team</th>
+                        <th></th>
+                        <th>Points</th>
+                        <th>Diff.</th>
+                        <th>W</th>
+                    </tr>
+      `;
+  }
 }
-
-let previousPoints;
 
 class TeamsRow {
   constructor(position, team, points, season) {
@@ -275,9 +312,9 @@ class TeamsRow {
   }
   getTeamsRowHtml() {
     if (this.position == '1') {
-      previousPoints = '-';
+      PREVIOUS_POINTS = '-';
     } else {
-      previousPoints = previousPoints - this.points;
+      PREVIOUS_POINTS = PREVIOUS_POINTS - this.points;
     }
     return `
                     <tr>
@@ -285,58 +322,21 @@ class TeamsRow {
                         <td class="team-link">${this.team.name}</td>
                         <td><img src="" alt=""></td>
                         <td>${this.points}</td>
-                        <td>${previousPoints}</td>
+                        <td>${PREVIOUS_POINTS}</td>
                     </tr>
       `;
   }
-}
-
-function validateParam(value, type) {
-  let param;
-  if (value) {
-    param = `${type}=${value}&`;
-  } else {
-    param = '';
+  static getTeamsRowTitleHtml() {
+    return `
+                    <tr>
+                        <th>P.</th>
+                        <th>Team</th>
+                        <th></th>
+                        <th>Points</th>
+                        <th>Diff.</th>
+                    </tr>
+      `;
   }
-  return param;
-}
-
-function getDriverImage(id, driverId, driverContext) {
-  if (driverId == id) {
-    driverImages.forEach((driver) => {
-      if (driver.id === id) {
-        if (driverContext.hasOwnProperty('driver')) {
-          return (driverContext.driver.image = driver.image);
-        } else {
-          return (driverContext.image = driver.image);
-        }
-      }
-    });
-  }
-}
-
-const driverImages = [
-  {
-    id: '10',
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/2019_Formula_One_tests_Barcelona%2C_P%C3%A9rez_%2847200017422%29.jpg/1200px-2019_Formula_One_tests_Barcelona%2C_P%C3%A9rez_%2847200017422%29.jpg',
-  },
-  {
-    id: '24',
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/2019_Formula_One_tests_Barcelona%2C_Sainz_%2847251966861%29.jpg/1200px-2019_Formula_One_tests_Barcelona%2C_Sainz_%2847251966861%29.jpg',
-  },
-  { id: '61', image: 'https://www.f1-fansite.com/wp-content/uploads/2020/01/Nicholas-Latifi-info-wiki-scaled.jpg' },
-  { id: '35', image: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Brendon_Hartley_USA_2017.jpg' },
-  { id: '18', image: 'https://upload.wikimedia.org/wikipedia/commons/f/f3/F12019_Schloss_Gabelhofen_%2821%29.jpg' },
-];
-
-function validateDriverImage(driverId, driverContext) {
-  getDriverImage('10', driverId, driverContext);
-  getDriverImage('24', driverId, driverContext);
-  getDriverImage('61', driverId, driverContext);
-  getDriverImage('35', driverId, driverContext);
-  getDriverImage('18', driverId, driverContext);
 }
 
 class API {
@@ -354,7 +354,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/circuits${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getCompetitions(countryValue, nameValue, searchValue, cityValue, idValue) {
@@ -373,7 +373,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/competitions${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getDrivers(nameValue, searchValue, idValue) {
@@ -386,7 +386,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/drivers${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getTeams(nameValue, searchValue, idValue) {
@@ -399,7 +399,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/teams${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getTeamsRankings(seasonValue, teamValue) {
@@ -412,7 +412,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/rankings/teams${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getDriversRankings(seasonValue, teamValue, driverValue) {
@@ -429,7 +429,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/rankings/drivers${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getRaceRankings(raceValue, teamValue, driverValue) {
@@ -446,7 +446,7 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/rankings/races${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getRaces(competitionValue, seasonValue, idValue, typeValue, timezoneValue, dateValue, nextValue, lastValue) {
@@ -468,30 +468,18 @@ class API {
       params = `?${params}`;
     }
     const url = `https://api-formula-1.p.rapidapi.com/races${params}`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 
   static async getSeasons() {
     const url = `https://api-formula-1.p.rapidapi.com/seasons`;
-    return await axios.get(url, apiHeaders);
+    return await axios.get(url, API_HEADERS);
   }
 }
 
 class UI {
   static async drawDriversRanking(idTableContainer, tableLength, seasonValue, teamValue, driverValue) {
-    let driversTableHtml = `
-                    <tr>
-                        <th>P.</th>
-                        <th></th>
-                        <th>Driver</th>
-                        <th class="no-show"></th>
-                        <th>Team</th>
-                        <th></th>
-                        <th>Points</th>
-                        <th>Diff.</th>
-                        <th>W</th>
-                    </tr>
-      `;
+    let driversTableHtml = DriversRow.getDriversRowTitleHtml();
     await API.getDriversRankings(seasonValue, teamValue, driverValue)
       .then(function (response) {
         response.data.response.slice(0, tableLength).forEach((row) => {
@@ -502,51 +490,29 @@ class UI {
       })
       .catch((error) => console.log(error));
     if (location.pathname === '/') {
-      /* sessionStorage.setItem('home-page', container.innerHTML); */
+      /* sessionStorage.setItem('home-page', CONTAINER.innerHTML); */
     }
   }
 
   static async drawTeamsRanking(idTableContainer, tableLength, seasonValue, teamValue) {
-    let teamsTableHtml = `
-                    <tr>
-                        <th>P.</th>
-                        <th>Team</th>
-                        <th></th>
-                        <th>Points</th>
-                        <th>Diff.</th>
-                    </tr>
-      `;
+    let teamsTableHtml = TeamsRow.getTeamsRowTitleHtml();
     await API.getTeamsRankings(seasonValue, teamValue)
       .then(function (response) {
         response.data.response.slice(0, tableLength).forEach((row) => {
           const teamsRow = new TeamsRow(row.position, row.team, row.points, row.season);
           teamsTableHtml = teamsTableHtml.concat(teamsRow.getTeamsRowHtml());
-          previousPoints = teamsRow.points;
+          PREVIOUS_POINTS = teamsRow.points;
         });
         document.getElementById(idTableContainer).innerHTML = teamsTableHtml;
       })
       .catch((error) => console.log(error));
     if (location.pathname === '/') {
-      /* sessionStorage.setItem('home-page', container.innerHTML); */
+      /* sessionStorage.setItem('home-page', CONTAINER.innerHTML); */
     }
   }
 
   static async drawRaceRanking(tableLength, raceValue, teamValue, driverValue) {
-    let raceTableHtml = `
-    <tr>
-        <th>P.</th>
-        <th></th>
-        <th>Driver</th>
-        <th class="no-show"></th>
-        <th>Team</th>
-        <th></th>
-        <th>Time</th>
-        <th class="no-show">Diff.</th>
-        <th>L</th>
-        <th>B</th>
-        <th>G</th>
-    </tr>
-`;
+    let raceTableHtml = RacesRow.getRacesRowTitleHtml();
     await API.getRaceRankings(raceValue, teamValue, driverValue)
       .then(function (response) {
         response.data.response.slice(0, tableLength).forEach((row) => {
@@ -567,7 +533,7 @@ class UI {
       .catch((error) => console.log(error));
     document.getElementById('last-race-rankings').innerHTML = raceTableHtml;
     if (location.pathname === '/') {
-      /* sessionStorage.setItem('home-page', container.innerHTML); */
+      /* sessionStorage.setItem('home-page', CONTAINER.innerHTML); */
     }
   }
 
@@ -600,26 +566,19 @@ class UI {
         document.getElementById('last-race-info').innerHTML = race.getRaceInformationHtml();
         document.getElementById('last-race-title').innerText = race.competition.name;
         getById();
-        idLastRace = race.id;
-        UI.drawRaceRanking(tableLength, idLastRace);
+        ID_LAST_RACE = race.id;
+        UI.drawRaceRanking(tableLength, ID_LAST_RACE);
       })
       .catch((error) => console.log(error));
     if (location.pathname === '/') {
-      /* sessionStorage.setItem('home-page', container.innerHTML); */
+      /* sessionStorage.setItem('home-page', CONTAINER.innerHTML); */
     } else {
       document.getElementById('see-race-information-btn').classList.add('no-show');
     }
   }
 
   static async drawDriver(nameValue, searchValue, idValue) {
-    let driverTeamsTable = `
-                    <tr>
-                        <th>Season</th>
-                        <th>Team</th>
-                        <th class="no-show"></th>
-                        <th>Result</th>
-                    </tr>
-      `;
+    let driverTeamsTable = Driver.getDriverPageTableTitle();
     await API.getDrivers(nameValue, searchValue, idValue)
       .then(function (response) {
         const driverData = response.data.response[0];
@@ -636,8 +595,25 @@ class UI {
           driverTeamsTable = driverTeamsTable.concat(driver.getDriverPageTableHtml(row.season, row.team.name, row.team.image));
         });
         document.getElementById('driver-page-table').innerHTML = driverTeamsTable;
+        driver.teams.forEach((team) => {
+          UI.drawDriverResults(team.season, '', driver.id);
+        });
       })
       .catch((error) => console.log(error));
+  }
+
+  static async drawDriverResults(seasonValue, teamValue, driverValue) {
+    await API.getDriversRankings(seasonValue, teamValue, driverValue).then(function (response) {
+      const season = response.data.response[0].season;
+      let position = response.data.response[0].position;
+      if (position === 1) {
+        position = 'Champion';
+        document.getElementById(`result-${season}`).style.fontWeight = '600';
+      } else {
+        position = `${position}°`;
+      }
+      document.getElementById(`result-${season}`).innerHTML = position;
+    });
   }
 
   static async drawTeam(nameValue, searchValue, idValue) {
@@ -692,7 +668,7 @@ class UI {
           circuitData.capacity,
           circuitData.opened
         );
-        container.innerHTML = circuit.getCircuitPageHtml();
+        CONTAINER.innerHTML = circuit.getCircuitPageHtml();
       })
       .catch((error) => console.log(error));
   }
@@ -815,6 +791,4 @@ class UI {
   }
 }
 
-let idLastRace;
-
-export { container, UI };
+export { CONTAINER, UI };
